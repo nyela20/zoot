@@ -18,7 +18,16 @@ public class Ecrire extends Instruction {
 
     @Override
     public String toMIPS() {
-        throw new UnsupportedOperationException("fonction toMips non définie ") ;
+        String ligne = "" +
+                "\t#Saut de ligne\n" +
+                "\tla $a0, saut\n" +
+                "\tli $v0, 4\n" +
+                "\tsyscall";
+        // Ecrire une constante entière
+        if(exp.estUnEntier()){
+            return (exp.toMIPS() + "\n" + ligne);
+        }
+        throw new UnsupportedOperationException("Type expression non reconnu") ;
     }
 
 }

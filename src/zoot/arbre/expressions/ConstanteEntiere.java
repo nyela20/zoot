@@ -7,8 +7,15 @@ public class ConstanteEntiere extends Constante {
     }
 
     @Override
-    public String toMIPS() {
-        throw new UnsupportedOperationException("fonction toMips non définie ") ;
+    public boolean estUnEntier() {
+        return true;
     }
 
+    @Override
+    public String toMIPS() {
+        return "\t#ecrire " + this.toString() + "\n" +
+                "\tli $a0, " + this.toString() + "\n" +
+                "\tli $v0 , 1 " + "\n" +
+                "\tsyscall";
+    }
 }

@@ -25,12 +25,32 @@ public class BlocDInstructions extends ArbreAbstrait {
 
     @Override
     public void verifier() {
-        throw new UnsupportedOperationException("fonction verifier non définie ") ;
+        //throw new UnsupportedOperationException("fonction verifier non définie ") ;
     }
     
     @Override
     public String toMIPS() {
-        throw new UnsupportedOperationException("fonction toMips non définie ") ;
+        verifier();
+        //En-tête du code mips
+        StringBuilder mips = new StringBuilder();
+        mips.append("#RALANTONISAINANA Ny Elanirina & FAEDO Théo \n" +
+                ".data \n" +
+                "\tsaut: .asciiz \"\\n\"\n" +
+                "\tvrai: .word 1\n" +
+                "\tfaux: .word 0\n" +
+                "\tstrvrai: .asciiz \"vrai\"\n" +
+                "\tstrfaux: .asciiz \"faux\"\n" +
+                ".text\n" +
+                "main:\n");
+        //Corps du code mips
+        for(Instruction instruction : programme) {
+            mips.append(instruction.toMIPS() + "\n");
+        }
+        //Fin du programme
+        mips.append("\t#Fin du programme\n" +
+                "\tli $v0, 10\n" +
+                "\tsyscall");
+        return mips.toString();
     }
 
     @Override
