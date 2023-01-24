@@ -8,26 +8,44 @@ import java.util.ArrayList;
  * 21 novembre 2018
  *
  * @author brigitte wrobel-dautcourt
+ * @author Ny Elanirina RALANTONISAINANA
+ * @author Théo FAEDO
  */
 
 public class BlocDInstructions extends ArbreAbstrait {
     
     protected ArrayList<Instruction> programme ;
 
+    /**
+     * @brief Constructeur de la classe BlocDInstructions
+     * @param n numéro de la ligne du bloc d'instructions dans le fichier .zoot
+     */
     public BlocDInstructions(int n) {
         super(n) ;
         programme = new ArrayList<>() ;
     }
-    
+
+    /**
+     * @brief Fonction qui empile les instructions du programme
+     * @param i une instruciton
+     */
     public void ajouter(Instruction i) {
         programme.add(i) ;
     }
 
+    /**
+     * @brief Fonction qui analyse la sémantique de l'arbre abstrait construit.
+     * @throws UnsupportedOperationException exception
+     */
     @Override
     public void verifier() {
         //throw new UnsupportedOperationException("fonction verifier non définie ") ;
     }
-    
+
+    /**
+     * @brief Fonction qui génére de code de l’arbre abstrait vérifié
+     * @return le code de l'arbre abstrait vérifié
+     */
     @Override
     public String toMIPS() {
         verifier();
@@ -57,5 +75,4 @@ public class BlocDInstructions extends ArbreAbstrait {
     public String toString() {
         return programme.toString() ;
     }
-
 }
