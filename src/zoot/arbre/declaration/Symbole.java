@@ -1,26 +1,26 @@
 package zoot.arbre.declaration;
 
-public abstract class Symbole{
+public class Symbole{
 
-    protected final String nom;
-    private int numBloc;
-    private final int deplacement; //adresse de retour de la fonction
+    protected String nom;
+    private int deplacement;
+
+    public Symbole(int deplacement,String nom){
+        this.nom = nom;
+        this.deplacement = deplacement;
+    }
 
     public Symbole(String nom){
         this.nom = nom;
-        this.numBloc = -1;
-        this.deplacement = TDS.getInstance().getDeplacementNumero(4);
     }
 
-    public void setNumBloc(int numBloc) {
-        this.numBloc = numBloc;
+    public String getSymbole(){
+        return nom;
     }
 
-    public int getNumBloc(){
-        return this.numBloc;
+    public void setDeplacement(final int deplacement) {
+        this.deplacement = deplacement;
     }
-
-    public abstract String getSymbole();
 
     public int getDeplacement() {
         return deplacement;

@@ -4,6 +4,7 @@ import java.util.*;
 import zoot.arbre.* ;
 import zoot.arbre.expressions.* ;
 import zoot.arbre.instructions.* ;
+import zoot.arbre.declaration.* ;
 import zoot.exceptions.AnalyseSyntaxiqueException;
 
 import java_cup.runtime.*;
@@ -51,36 +52,42 @@ parser code {:
         report_error(message, info);
     }
 :};
-   
+
 /* ------------Declaration of Terminals and Non Terminals Section----------- */
-   
+
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    DEBUT, FIN, POINTVIRGULE, ECRIRE, VARIABLES, EGAL;
-terminal String    CSTENTIERE, IDF, CSTBOOLEENNE, ENTIER, BOOLEEN ;
-   
+terminal Symbol    DEBUT, FIN, VARIABLES, POINTVIRGULE, ECRIRE, EGAL;
+terminal String    IDF, CSTENTIERE, CSTBOOLEENNE, ENTIER, BOOLEEN ;
+
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST ;
-non terminal Instruction INST ;
+non terminal ArbreAbstrait PROG, LINST, LDCL;
+non terminal Instruction INST, DCL ;
 non terminal Expression EXP ;
-non terminal String TYPE, DCLR;
-non terminal ArrayList<String> LISTDCLR;
+non terminal String TYPE;
 
 /* ----------------------------Grammar Section-------------------- */
- 
+
 start with PROG ;
 
-PROG    ::=     DEBUT  LINST:li  FIN
-                {: RESULT = li ; :}
-                |
-                VARIABLES LISTDCLR:ld DEBUT LINST:li  FIN
-                {:
-                RESULT = li;
-                :}
+PROG    ::=     VARIABLES LDCL:lv DEBUT  LINST:li  FIN
+                {: RESULT = li; :}
+        |
+                DEBUT  LINST:li  FIN
+                {: RESULT = li; :}
                 ;
 
-//Liste d'instructions
+LDCL    ::=     LDCL:ld DCL:d
+                {: ((BlocDInstructions)ld).ajouter(d) ;
+                    RESULT = ld ; :}
+        |
+                DCL:d
+                {: BlocDInstructions b = new BlocDInstructions(dleft + 1) ;
+                   b.ajouter(d) ;
+                   RESULT = b ; :}
+                ;
+
 LINST   ::=     LINST:li  INST:i
                 {: ((BlocDInstructions)li).ajouter(i) ;
                    RESULT = li ; :}
@@ -89,28 +96,25 @@ LINST   ::=     LINST:li  INST:i
                 {: BlocDInstructions b = new BlocDInstructions(ileft + 1) ;
                    b.ajouter(i) ;
                    RESULT = b ; :}
-                ;
+                   ;
 
-INST    ::=     ECRIRE EXP:e POINTVIRGULE //Ecriture
+INST    ::=     ECRIRE EXP:e POINTVIRGULE
                 {: RESULT = new Ecrire(e, eleft + 1) ; :}
-                |
-                //Affection
-                //a = 5;
-                //b = vrai;
-                //a = c;
-                IDF:idf EGAL EXP:e POINTVIRGULE
-                {: RESULT = new Affectation(idf,e, eleft +1); :}
-                ;
-    
+        |
+              IDF:i EGAL EXP:e POINTVIRGULE
+              {: RESULT = new Affectation(new Identifiant(i,ileft+1), e, eleft+1) ; :}
+              ;
+
+
 EXP    ::=     CSTENTIERE:c
-                   {:  RESULT = new ConstanteEntiere(c, cleft + 1);:}
-               |
+               {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
+        |
                CSTBOOLEENNE:c
-               {: RESULT = new ConstanteBooleenne(c, cleft + 1);:}
-               |
+               {: RESULT = new ConstanteBooleenne(c, cleft + 1) ; :}
+        |
                IDF:i
-               {: RESULT = new Identifiant(i, ileft +1); :}
-               ;
+               {: RESULT = new Identifiant(i, ileft + 1) ; :}
+                ;
 
 TYPE    ::=     ENTIER
                 {: RESULT = "entier"; :}
@@ -119,23 +123,6 @@ TYPE    ::=     ENTIER
                 {: RESULT = "booleen"; :}
                 ;
 
-DCLR    ::=     TYPE:t IDF:idf POINTVIRGULE //Exemples: entier 1; booleen vrai;
-                {:
-                  TDS.getInstance().ajouter(new EntreeVariable(idf), new SymboleVariable(t, 4));
-                  RESULT = idf;
-                :}
-            ;
-
-//Une liste de decalrations
-LISTDCLR    ::=     LISTDCLR:ld DCLR:d
-                    {:ld.add(d);
-                     RESULT = ld;
-                    :}
-                    |
-                    DCLR:d
-                    {:
-                        ArrayList<String> ld = new ArrayList<>();
-                        ld.add(d);
-                        RESULT = ld;
-                    :}
-                    ;
+DCL     ::=    TYPE:t IDF:i POINTVIRGULE
+               {: TDS.getInstance().ajouter(i, new Symbole(t)) ; :}
+                ;

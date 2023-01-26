@@ -1,8 +1,8 @@
 package zoot.arbre.expressions;
 
-public class ConstanteBooleene extends Constante{
+public class ConstanteBooleenne extends Constante{
 
-    public ConstanteBooleene(String texte, int n){
+    public ConstanteBooleenne(String texte, int n){
         super(texte, n);
     }
 

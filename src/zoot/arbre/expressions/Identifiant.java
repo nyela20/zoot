@@ -8,6 +8,6 @@ public class Identifiant extends Constante{
 
     @Override
     public String toMIPS() {
-        return null;
+        return "";
     }
 }
