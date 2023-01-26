@@ -229,7 +229,7 @@ class CUP$AnalyseurSyntaxique$actions {
 		int idfright = ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).right;
 		String idf = (String)((java_cup.runtime.Symbol) CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-1)).value;
 		
-                  TDS.getInstance().ajouter(, new SymboleVariable(t, 4));
+                  TDS.getInstance().ajouter(new EntreeVariable(idf), new SymboleVariable(t, 4));
                   RESULT = idf;
                 
               CUP$AnalyseurSyntaxique$result = parser.getSymbolFactory().newSymbol("DCLR",5, ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.elementAt(CUP$AnalyseurSyntaxique$top-2)), ((java_cup.runtime.Symbol)CUP$AnalyseurSyntaxique$stack.peek()), RESULT);
