@@ -56,14 +56,16 @@ parser code {:
    
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    DEBUT, FIN, POINTVIRGULE, ECRIRE ;
-terminal String    CSTENTIERE ;
+terminal Symbol    DEBUT, FIN, POINTVIRGULE, ECRIRE, VARIABLES, EGAL;
+terminal String    CSTENTIERE, IDF, CSTBOOLEENNE, ENTIER, BOOLEEN ;
    
 /* Non terminals used in the grammar section.  */
 
 non terminal ArbreAbstrait PROG, LINST ;
 non terminal Instruction INST ;
 non terminal Expression EXP ;
+non terminal String TYPE, DCLR;
+non terminal ArrayList<String> LISTDCLR;
 
 /* ----------------------------Grammar Section-------------------- */
  
@@ -71,8 +73,14 @@ start with PROG ;
 
 PROG    ::=     DEBUT  LINST:li  FIN
                 {: RESULT = li ; :}
+                |
+                VARIABLES LISTDCLR:ld DEBUT LINST:li  FIN
+                {:
+                RESULT = li;
+                :}
                 ;
 
+//Liste d'instructions
 LINST   ::=     LINST:li  INST:i
                 {: ((BlocDInstructions)li).ajouter(i) ;
                    RESULT = li ; :}
@@ -83,10 +91,51 @@ LINST   ::=     LINST:li  INST:i
                    RESULT = b ; :}
                 ;
 
-INST    ::=     ECRIRE EXP:e POINTVIRGULE
+INST    ::=     ECRIRE EXP:e POINTVIRGULE //Ecriture
                 {: RESULT = new Ecrire(e, eleft + 1) ; :}
+                |
+                //Affection
+                //a = 5;
+                //b = vrai;
+                //a = c;
+                IDF:idf EGAL EXP:e POINTVIRGULE
+                {: RESULT = new Affectation(idf,e, eleft +1); :}
                 ;
     
 EXP    ::=     CSTENTIERE:c
-                {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
+                   {:  RESULT = new ConstanteEntiere(c, cleft + 1);:}
+               |
+               CSTBOOLEENNE:c
+               {: RESULT = new ConstanteBooleenne(c, cleft + 1);:}
+               |
+               IDF:i
+               {: RESULT = new Identifiant(i, ileft +1); :}
+               ;
+
+TYPE    ::=     ENTIER
+                {: RESULT = "entier"; :}
+                |
+                BOOLEEN
+                {: RESULT = "booleen"; :}
                 ;
+
+DCLR    ::=     TYPE:t IDF:idf POINTVIRGULE //Exemples: entier 1; booleen vrai;
+                {:
+                  TDS.getInstance().ajouter(new EntreeVariable(idf), new SymboleVariable(t, 4));
+                  RESULT = idf;
+                :}
+            ;
+
+//Une liste de decalrations
+LISTDCLR    ::=     LISTDCLR:ld DCLR:d
+                    {:ld.add(d);
+                     RESULT = ld;
+                    :}
+                    |
+                    DCLR:d
+                    {:
+                        ArrayList<String> ld = new ArrayList<>();
+                        ld.add(d);
+                        RESULT = ld;
+                    :}
+                    ;
