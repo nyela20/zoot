@@ -1,6 +1,8 @@
 package zoot.arbre.instructions;
 
+import zoot.arbre.declaration.TDS;
 import zoot.arbre.expressions.Expression;
+import zoot.exceptions.VariableIndefinieException;
 
 /**
  * @class Ecrire
@@ -26,8 +28,11 @@ public class Ecrire extends Instruction {
      * @throws UnsupportedOperationException exception
      */
     @Override
-    public void verifier() {
-        throw new UnsupportedOperationException("fonction verfier non définie ");
+    public void verifier() throws VariableIndefinieException {
+        //Variable indéfini
+        if(!TDS.getInstance().contains(exp.toString())){
+            throw new VariableIndefinieException(this.noLigne, exp.toString());
+        }
     }
 
     /**
@@ -36,6 +41,7 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
+        verifier();
         return (exp.toMIPS() + "\n" + ligne);
     }
 

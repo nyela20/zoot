@@ -21,5 +21,4 @@ public class ConstanteBooleenne extends Constante{
         return cste;
     }
 
-
 }

@@ -4,6 +4,7 @@ import zoot.arbre.declaration.Symbole;
 import zoot.arbre.declaration.TDS;
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Identifiant;
+import zoot.exceptions.VariableIndefinieException;
 
 public class Affectation extends Instruction{
 
@@ -18,12 +19,16 @@ public class Affectation extends Instruction{
     }
 
     @Override
-    public void verifier() {
-        throw new UnsupportedOperationException("fonction verfier non définie ") ;
+    public void verifier() throws VariableIndefinieException {
+        //Variable indéfinie
+        if(!TDS.getInstance().contains(identifiant.toString())){
+            throw new VariableIndefinieException(this.noLigne, identifiant.toString());
+        }
     }
 
     @Override
     public String toMIPS() {
+        verifier();
         StringBuilder tomips = new StringBuilder();
         if(exp.estConstanteEntiere()) {
             tomips.append("\t#" + identifiant.toString() + " = " + exp.toString() + "\n" +

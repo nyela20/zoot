@@ -89,7 +89,7 @@ LDCL    ::=     LDCL:ld DCL:d
                 ;
 
 DCL     ::=    TYPE:t IDF:i POINTVIRGULE
-               {: TDS.getInstance().ajouter(i, new Symbole(t)) ; :}
+               {: TDS.getInstance().ajouter(i, new Symbole(t), ileft+1, tright) ; :}
                 ;
 
 LINST   ::=     LINST:li  INST:i
