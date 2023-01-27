@@ -1,5 +1,6 @@
 package zoot.arbre;
 
+import zoot.arbre.declaration.TDS;
 import zoot.arbre.instructions.Instruction;
 
 import java.util.ArrayList;
@@ -52,15 +53,20 @@ public class BlocDInstructions extends ArbreAbstrait {
         //En-tête du code mips
         StringBuilder mips = new StringBuilder();
         mips.append("#RALANTONISAINANA Ny Elanirina & FAEDO Théo \n" +
-                ".data \n" +
-                "\tsaut: .asciiz \"\\n\"\n" +
-                "\tvrai: .word 1\n" +
-                "\tfaux: .word 0\n" +
-                "\tstrvrai: .asciiz \"vrai\"\n" +
-                "\tstrfaux: .asciiz \"faux\"\n" +
-                ".text\n" +
-                "main:\n");
+                    ".data \n" +
+                    "\tsaut: .asciiz \"\\n\"\n" +
+                    "\tvrai: .word 1\n" +
+                    "\tfaux: .word 0\n" +
+                    "\tstrvrai: .asciiz \"vrai\"\n" +
+                    "\tstrfaux: .asciiz \"faux\"\n" +
+                    ".text\n" +
+                    "main:\n");
         //Corps du code mips
+        //Allocation de la pile
+        mips.append("\t#Initialisation de la base des variables\n" +
+                    "\tmove $s7, $sp\n" +
+                    "\taddi $sp, $sp, " + TDS.getInstance().getPileAllocation() + "\n");
+        //Instructions
         for(Instruction instruction : programme) {
             mips.append(instruction.toMIPS() + "\n");
         }

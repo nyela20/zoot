@@ -88,6 +88,10 @@ LDCL    ::=     LDCL:ld DCL:d
                    RESULT = b ; :}
                 ;
 
+DCL     ::=    TYPE:t IDF:i POINTVIRGULE
+               {: TDS.getInstance().ajouter(i, new Symbole(t)) ; :}
+                ;
+
 LINST   ::=     LINST:li  INST:i
                 {: ((BlocDInstructions)li).ajouter(i) ;
                    RESULT = li ; :}
@@ -123,6 +127,3 @@ TYPE    ::=     ENTIER
                 {: RESULT = "booleen"; :}
                 ;
 
-DCL     ::=    TYPE:t IDF:i POINTVIRGULE
-               {: TDS.getInstance().ajouter(i, new Symbole(t)) ; :}
-                ;

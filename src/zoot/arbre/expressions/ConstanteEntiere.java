@@ -17,6 +17,16 @@ public class ConstanteEntiere extends Constante {
         super(texte, n) ;
     }
 
+    @Override
+    public boolean estConstanteEntiere() {
+        return true;
+    }
+
+    @Override
+    public boolean estConstanteBooleenne() {
+        return false;
+    }
+
     /**
      * @brief Fonction qui génére de code de l’arbre abstrait vérifié
      * @return le code de l'arbre abstrait vérifié

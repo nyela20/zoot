@@ -27,7 +27,7 @@ public class Ecrire extends Instruction {
      */
     @Override
     public void verifier() {
-        throw new UnsupportedOperationException("fonction verfier non définie ") ;
+        throw new UnsupportedOperationException("fonction verfier non définie ");
     }
 
     /**
@@ -36,7 +36,7 @@ public class Ecrire extends Instruction {
      */
     @Override
     public String toMIPS() {
-         return (exp.toMIPS() + "\n" + ligne);
+        return (exp.toMIPS() + "\n" + ligne);
     }
 
 }

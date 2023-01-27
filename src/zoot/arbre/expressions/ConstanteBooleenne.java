@@ -7,7 +7,19 @@ public class ConstanteBooleenne extends Constante{
     }
 
     @Override
+    public boolean estConstanteEntiere() {
+        return false;
+    }
+
+    @Override
+    public boolean estConstanteBooleenne() {
+        return true;
+    }
+
+    @Override
     public String toMIPS() {
         return cste;
     }
+
+
 }

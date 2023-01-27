@@ -1,8 +1,5 @@
 package zoot.arbre.declaration;
 
-import zoot.exceptions.AnalyseException;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -26,12 +23,14 @@ public class TDS implements Iterable<String> {
 
     public void ajouter(final String idf, final Symbole symbole) {
         if (this.tds.containsKey(idf)) {
+
         }
-        symbole.setDeplacement(this.getTailleZoneVariable());
+        symbole.setDeplacement(this.getPileAllocation());
         this.tds.put(idf, symbole);
+        System.out.println(idf + " : " + symbole.getSymbole());
     }
 
-    public int getTailleZoneVariable() {
+    public int getPileAllocation() {
         return this.tds.size() * -4;
     }
 

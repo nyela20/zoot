@@ -1,6 +1,7 @@
 package zoot.arbre.instructions;
 
 import zoot.arbre.declaration.Symbole;
+import zoot.arbre.declaration.TDS;
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Identifiant;
 
@@ -23,6 +24,12 @@ public class Affectation extends Instruction{
 
     @Override
     public String toMIPS() {
-        return null;
+        StringBuilder tomips = new StringBuilder();
+        if(exp.estConstanteEntiere()) {
+            tomips.append("\t#" + identifiant.toString() + " = " + exp.toString() + "\n" +
+                    "\tli $v0, " + exp.toString() + "\n" +
+                    "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)");
+        }
+        return tomips.toString();
     }
 }

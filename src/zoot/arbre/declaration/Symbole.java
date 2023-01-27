@@ -2,7 +2,7 @@ package zoot.arbre.declaration;
 
 public class Symbole{
 
-    protected String nom;
+    private String nom;
     private int deplacement;
 
     public Symbole(int deplacement,String nom){
