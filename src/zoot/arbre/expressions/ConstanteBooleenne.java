@@ -1,5 +1,8 @@
 package zoot.arbre.expressions;
 
+import zoot.arbre.declaration.Symbole;
+import zoot.arbre.declaration.TDS;
+
 public class ConstanteBooleenne extends Constante{
 
     public ConstanteBooleenne(String texte, int n){
@@ -21,9 +24,17 @@ public class ConstanteBooleenne extends Constante{
         return false;
     }
 
+    public String toStrBool(String valeur){
+        if(valeur.compareTo("vrai") == 0) return "strvrai";
+        return "strfaux";
+    }
+
     @Override
     public String toMIPS() {
-        return cste;
+        return "\t#ecrire " + this.cste + "\n" +
+                "\tla $a0, " + toStrBool(this.cste) + "\n" +
+                "\tli $v0, 4 \n" +
+                "\tsyscall\n";
     }
 
 }

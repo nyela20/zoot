@@ -33,7 +33,10 @@ public class Identifiant extends Constante{
         if(symbole.getSymbole().compareTo("entier") == 0) {
             tomips.append("\t#ecrire " + this.cste + "\n");
             tomips.append("\tlw $a0, " + symbole.getDeplacement() + "($s7)\n");
-            tomips.append("\tli $v0, 1");
+            tomips.append("\tli $v0, 1\n");
+            tomips.append("\tsyscall");
+        }else if(symbole.getSymbole().compareTo("booleen") == 0){
+            //A REMPLIR
         }
         return tomips.toString();
     }

@@ -41,7 +41,11 @@ public class Affectation extends Instruction{
         if(exp.estConstanteEntiere()) {
             tomips.append("\t#" + identifiant.toString() + " = " + exp.toString() + "\n" +
                     "\tli $v0, " + exp.toString() + "\n" +
-                    "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)");
+                    "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)\n");
+        }else if(exp.estConstanteBooleenne()){
+            tomips.append("\t#" + identifiant.toString() + " = " + exp.toString() + "\n" +
+                    "\tla $v0, " + exp.toString() + "\n" +
+                    "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)\n");
         }
         return tomips.toString();
     }
