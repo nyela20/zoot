@@ -17,6 +17,11 @@ public class ConstanteBooleenne extends Constante{
     }
 
     @Override
+    public boolean estIdf() {
+        return false;
+    }
+
+    @Override
     public String toMIPS() {
         return cste;
     }

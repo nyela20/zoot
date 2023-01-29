@@ -21,6 +21,11 @@ public class Identifiant extends Constante{
     }
 
     @Override
+    public boolean estIdf() {
+        return true;
+    }
+
+    @Override
     public String toMIPS() {
         StringBuilder tomips = new StringBuilder();
         Symbole symbole = TDS.getInstance().identifier(this.cste);

@@ -30,7 +30,7 @@ public class Ecrire extends Instruction {
     @Override
     public void verifier() throws VariableIndefinieException {
         //Variable indéfini
-        if(!TDS.getInstance().contains(exp.toString())){
+        if(!TDS.getInstance().contains(exp.toString()) && exp.estIdf()){
             throw new VariableIndefinieException(this.noLigne, exp.toString());
         }
     }

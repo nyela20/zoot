@@ -27,6 +27,11 @@ public class ConstanteEntiere extends Constante {
         return false;
     }
 
+    @Override
+    public boolean estIdf() {
+        return false;
+    }
+
     /**
      * @brief Fonction qui génére de code de l’arbre abstrait vérifié
      * @return le code de l'arbre abstrait vérifié

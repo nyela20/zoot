@@ -1,9 +1,9 @@
 package zoot.arbre.instructions;
 
-import zoot.arbre.declaration.Symbole;
 import zoot.arbre.declaration.TDS;
 import zoot.arbre.expressions.Expression;
 import zoot.arbre.expressions.Identifiant;
+import zoot.exceptions.MauvaisAffectionTypeException;
 import zoot.exceptions.VariableIndefinieException;
 
 public class Affectation extends Instruction{
@@ -23,6 +23,14 @@ public class Affectation extends Instruction{
         //Variable indéfinie
         if(!TDS.getInstance().contains(identifiant.toString())){
             throw new VariableIndefinieException(this.noLigne, identifiant.toString());
+        }
+
+        //Variable n'est pas du même type que la valeur entree
+        if((TDS.getInstance().identifier(this.identifiant.toString()).getSymbole().compareTo("entier") == 0) && exp.estConstanteBooleenne()){
+            throw new MauvaisAffectionTypeException(this.noLigne, identifiant.toString());
+        }
+        if((TDS.getInstance().identifier(this.identifiant.toString()).getSymbole().compareTo("booleen") == 0) && exp.estConstanteEntiere()){
+            throw new MauvaisAffectionTypeException(this.noLigne, identifiant.toString());
         }
     }
 
