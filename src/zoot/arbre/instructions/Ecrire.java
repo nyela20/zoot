@@ -30,7 +30,7 @@ public class Ecrire extends Instruction {
     @Override
     public void verifier() throws VariableIndefinieException {
         //Variable indéfini
-        if(!TDS.getInstance().contains(exp.toString()) && exp.estIdf()){
+        if(!TDS.getInstance().contains(exp.toString()) && exp.estIdentifiant()){
             throw new VariableIndefinieException(this.noLigne, exp.toString());
         }
     }
@@ -42,7 +42,7 @@ public class Ecrire extends Instruction {
     @Override
     public String toMIPS() {
         verifier();
-        return (exp.toMIPS() + "\n" + ligne);
+        return (exp.toMIPS() + ligne);
     }
 
 }

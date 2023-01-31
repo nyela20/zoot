@@ -28,7 +28,7 @@ public class ConstanteEntiere extends Constante {
     }
 
     @Override
-    public boolean estIdf() {
+    public boolean estIdentifiant() {
         return false;
     }
 

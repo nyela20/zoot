@@ -38,6 +38,11 @@ public abstract class Constante extends Expression {
         return cste ;
     }
 
+    protected String toStrBool(String valeur){
+        if(valeur.compareTo("vrai") == 0) return "strvrai";
+        return "strfaux";
+    }
+
 
 
 

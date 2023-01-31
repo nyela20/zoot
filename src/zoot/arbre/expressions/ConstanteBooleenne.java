@@ -20,14 +20,10 @@ public class ConstanteBooleenne extends Constante{
     }
 
     @Override
-    public boolean estIdf() {
+    public boolean estIdentifiant() {
         return false;
     }
 
-    public String toStrBool(String valeur){
-        if(valeur.compareTo("vrai") == 0) return "strvrai";
-        return "strfaux";
-    }
 
     @Override
     public String toMIPS() {
@@ -36,5 +32,4 @@ public class ConstanteBooleenne extends Constante{
                 "\tli $v0, 4 \n" +
                 "\tsyscall\n";
     }
-
 }

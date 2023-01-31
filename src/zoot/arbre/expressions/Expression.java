@@ -22,7 +22,7 @@ public abstract class Expression extends ArbreAbstrait {
 
     public abstract boolean estConstanteBooleenne();
 
-    public abstract boolean estIdf();
+    public abstract boolean estIdentifiant();
 
 
 }

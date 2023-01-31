@@ -21,7 +21,7 @@ public class Identifiant extends Constante{
     }
 
     @Override
-    public boolean estIdf() {
+    public boolean estIdentifiant() {
         return true;
     }
 
@@ -36,7 +36,10 @@ public class Identifiant extends Constante{
             tomips.append("\tli $v0, 1\n");
             tomips.append("\tsyscall");
         }else if(symbole.getSymbole().compareTo("booleen") == 0){
-            //A REMPLIR
+            tomips.append("\t#ecrire " + this.cste + "\n");
+            tomips.append("\tlw $a0, " + symbole.getDeplacement() + "($s7)\n");
+            tomips.append("\tli $v0, 4\n");
+            tomips.append("\tsyscall");
         }
         return tomips.toString();
     }

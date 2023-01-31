@@ -24,11 +24,11 @@ public class Affectation extends Instruction{
         if(!TDS.getInstance().contains(identifiant.toString())){
             throw new VariableIndefinieException(this.noLigne, identifiant.toString());
         }
-
         //Variable n'est pas du même type que la valeur entree
         if((TDS.getInstance().identifier(this.identifiant.toString()).getSymbole().compareTo("entier") == 0) && exp.estConstanteBooleenne()){
             throw new MauvaisAffectionTypeException(this.noLigne, identifiant.toString());
         }
+        //Type différent lors d'une affectation
         if((TDS.getInstance().identifier(this.identifiant.toString()).getSymbole().compareTo("booleen") == 0) && exp.estConstanteEntiere()){
             throw new MauvaisAffectionTypeException(this.noLigne, identifiant.toString());
         }
@@ -38,14 +38,21 @@ public class Affectation extends Instruction{
     public String toMIPS() {
         verifier();
         StringBuilder tomips = new StringBuilder();
-        if(exp.estConstanteEntiere()) {
+        if (exp.estConstanteEntiere()) {
             tomips.append("\t#" + identifiant.toString() + " = " + exp.toString() + "\n" +
                     "\tli $v0, " + exp.toString() + "\n" +
-                    "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)\n");
-        }else if(exp.estConstanteBooleenne()){
+                    "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)");
+        } else if (exp.estConstanteBooleenne()) {
             tomips.append("\t#" + identifiant.toString() + " = " + exp.toString() + "\n" +
-                    "\tla $v0, " + exp.toString() + "\n" +
-                    "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)\n");
+                    "\tla $v0, " + toStrBool(exp.toString()) + "\n" +
+                    "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)");
+        } else if (exp.estIdentifiant()) {
+            if ((TDS.getInstance().identifier(identifiant.toString()).getSymbole().compareTo("booleen") == 0) ||
+                    TDS.getInstance().identifier(identifiant.toString()).getSymbole().compareTo("entier") == 0) {
+                tomips.append("\t#" + identifiant.toString() + " = " + exp.toString() + "\n" +
+                        "\tlw $v0," + TDS.getInstance().identifier(exp.toString()).getDeplacement() + "($s7)\n" +
+                        "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)");
+            }
         }
         return tomips.toString();
     }

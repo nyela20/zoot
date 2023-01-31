@@ -17,4 +17,9 @@ public abstract class Instruction extends ArbreAbstrait {
         super(n);
     }
 
+    protected String toStrBool(String valeur){
+        if(valeur.compareTo("vrai") == 0) return "strvrai";
+        return "strfaux";
+    }
+
 }
