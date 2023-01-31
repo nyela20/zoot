@@ -11,8 +11,11 @@ public class TDS implements Iterable<String> {
     private static final TDS instance = new TDS();
     private HashMap<String,Symbole> tds;
 
+    private int conditionIndex;
+
     private TDS(){
         this.tds = new HashMap<>();
+        this.conditionIndex = 0;
     }
 
     public static TDS getInstance(){
@@ -48,6 +51,11 @@ public class TDS implements Iterable<String> {
 
     public boolean contains(String idf){
         return this.tds.containsKey(idf);
+    }
+
+    public int getConditionIndex(){
+        this.conditionIndex ++;
+        return conditionIndex;
     }
 
     @Override
