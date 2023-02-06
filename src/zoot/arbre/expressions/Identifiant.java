@@ -38,7 +38,7 @@ public class Identifiant extends Constante{
         }else if(symbole.getSymbole().compareTo("booleen") == 0){
             int conditionIndex = TDS.getInstance().getConditionIndex();
             tomips.append("\t#ecrire " + this.cste + "\n");
-            tomips.append("\t#la $t0, faux\n");
+            tomips.append("\tla $t0, faux\n");
             tomips.append("\tlw $a0, " + symbole.getDeplacement() + "($s7)\n");
             tomips.append("\tbeq $t0,$a0, Sinon" + conditionIndex + " \n");
             tomips.append("\tla $a0, strvrai\n");

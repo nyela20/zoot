@@ -24,13 +24,17 @@ public class Affectation extends Instruction {
         if (!TDS.getInstance().contains(identifiant.toString())) {
             throw new VariableIndefinieException(this.noLigne, identifiant.toString());
         }
-        //Variable n'est pas du même type que la valeur entree
+        //Type différent lors d'une affectation
         if ((TDS.getInstance().identifier(this.identifiant.toString()).getSymbole().compareTo("entier") == 0) && exp.estConstanteBooleenne()) {
             throw new MauvaisAffectionTypeException(this.noLigne, identifiant.toString());
         }
-        //Type différent lors d'une affectation
         if ((TDS.getInstance().identifier(this.identifiant.toString()).getSymbole().compareTo("booleen") == 0) && exp.estConstanteEntiere()) {
             throw new MauvaisAffectionTypeException(this.noLigne, identifiant.toString());
+        }
+        if(exp.estIdentifiant()) {
+            if ((TDS.getInstance().identifier(this.exp.toString()).getSymbole().compareTo(TDS.getInstance().identifier(this.identifiant.toString()).getSymbole()) != 0)) {
+                throw new MauvaisAffectionTypeException(this.noLigne, identifiant.toString());
+            }
         }
     }
 
