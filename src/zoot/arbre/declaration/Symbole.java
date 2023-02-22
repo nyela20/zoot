@@ -1,21 +1,21 @@
 package zoot.arbre.declaration;
 
-public class Symbole{
+public abstract class Symbole{
 
-    private String nom;
+    private String type;
     private int deplacement;
 
-    public Symbole(int deplacement,String nom){
-        this.nom = nom;
+    public Symbole(int deplacement,String type){
+        this.type = type;
         this.deplacement = deplacement;
     }
 
-    public Symbole(String nom){
-        this.nom = nom;
+    public Symbole(String type){
+        this.type = type;
     }
 
     public String getSymbole(){
-        return nom;
+        return type;
     }
 
     public void setDeplacement(final int deplacement) {

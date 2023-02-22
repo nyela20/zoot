@@ -37,6 +37,9 @@ idf = [a-zA-Z_][a-zA-Z0-9_]*
 finDeLigne = \r|\n
 espace = {finDeLigne}  | [ \t\f]
 commentaire = [/]{2}.*{finDeLigne}
+paro = \( /* parenthèse ouvrante */
+parf = \) /* parenthèse fermante */
+
 
 
 %%
@@ -44,9 +47,13 @@ commentaire = [/]{2}.*{finDeLigne}
 
 "variables"            { return symbol(CodesLexicaux.VARIABLES); }
 
+"fonctions"            { return symbol(CodesLexicaux.FONCTIONS); }
+
 "debut"                { return symbol(CodesLexicaux.DEBUT); }
 
 "fin"              	   { return symbol(CodesLexicaux.FIN); }
+
+"retourne"             { return symbol(CodesLexicaux.RETOURNER); }
 
 "ecrire"               { return symbol(CodesLexicaux.ECRIRE); }
 
@@ -58,7 +65,11 @@ commentaire = [/]{2}.*{finDeLigne}
 
 ";"                    { return symbol(CodesLexicaux.POINTVIRGULE); }
 
-{csteE}      	       { return symbol(CodesLexicaux.CSTENTIERE, yytext()); }
+{paro}                 { return symbol(CodesLexicaux.PARO); } 
+
+{parf}                 { return symbol(CodesLexicaux.PARF); }
+
+{csteE}      	         { return symbol(CodesLexicaux.CSTENTIERE, yytext()); }
 
 {csteB}                { return symbol(CodesLexicaux.CSTBOOLEENNE, yytext()); }
 

@@ -5,6 +5,7 @@ import zoot.arbre.* ;
 import zoot.arbre.expressions.* ;
 import zoot.arbre.instructions.* ;
 import zoot.arbre.declaration.* ;
+import zoot.arbre.fonction.*;
 import zoot.exceptions.AnalyseSyntaxiqueException;
 
 import java_cup.runtime.*;
@@ -57,14 +58,15 @@ parser code {:
 
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    DEBUT, FIN, VARIABLES, POINTVIRGULE, ECRIRE, EGAL;
+terminal Symbol    DEBUT, FIN, VARIABLES,FONCTIONS, POINTVIRGULE, ECRIRE, EGAL, PARO, PARF, RETOURNER;
 terminal String    IDF, CSTENTIERE, CSTBOOLEENNE, ENTIER, BOOLEEN ;
 
 /* Non terminals used in the grammar section.  */
 
-non terminal ArbreAbstrait PROG, LINST, LDCL;
+non terminal ArbreAbstrait PROG, LINST, LDCL, LFCT;
 non terminal Instruction INST, DCL ;
 non terminal Expression EXP ;
+non terminal Fonction FCT;
 non terminal String TYPE;
 
 /* ----------------------------Grammar Section-------------------- */
@@ -75,6 +77,9 @@ PROG    ::=     VARIABLES LDCL:lv DEBUT  LINST:li  FIN
                 {: RESULT = li; :}
         |
                 DEBUT  LINST:li  FIN
+                {: RESULT = li; :}
+        | 
+                VARIABLES LDCL:lv FONCTIONS LFCT:lf DEBUT  LINST:li  FIN
                 {: RESULT = li; :}
                 ;
 
@@ -89,7 +94,7 @@ LDCL    ::=     LDCL:ld DCL:d
                 ;
 
 DCL     ::=    TYPE:t IDF:i POINTVIRGULE
-               {: TDS.getInstance().ajouter(i, new Symbole(t), ileft+1, tright) ; :}
+               {: TDS.getInstance().ajouter(new EntreeVariable(i), new SymboleVariable(t), ileft+1, tright) ; :}
                 ;
 
 LINST   ::=     LINST:li  INST:i
@@ -107,10 +112,13 @@ INST    ::=     ECRIRE EXP:e POINTVIRGULE
         |
               IDF:i EGAL EXP:e POINTVIRGULE
               {: RESULT = new Affectation(new Identifiant(i,ileft+1), e, eleft+1) ; :}
+        |
+              RETOURNER EXP:e POINTVIRGULE
+              {: RESULT = new Retourner(e,eleft+1); :}
               ;
 
 
-EXP    ::=     CSTENTIERE:c
+EXP    ::=     CSTENTIERE:c //Bloc fonction a continuer on a un pb Instruction = fonction
                {: RESULT = new ConstanteEntiere(c, cleft + 1) ; :}
         |
                CSTBOOLEENNE:c
@@ -127,3 +135,18 @@ TYPE    ::=     ENTIER
                 {: RESULT = "booleen"; :}
                 ;
 
+LFCT    ::=     LFCT:lf FCT:f
+                {: ((BlocFonctions)lf).ajouter(f) ;
+                    RESULT = lf ; :}
+        |
+                FCT:f
+                {: BlocFonctions b = new BlocFonctions(fleft + 1) ;
+                   b.ajouter(f) ;
+                   RESULT = b ; :}
+                ;
+
+FCT     ::=     TYPE:t IDF:i PARO PARF DEBUT LINST:li FIN
+                {:
+                    TDS.getInstance().ajouter(new EntreeFonction(i),new SymboleFonction(t), ileft+1, tright);
+               :}
+               ;

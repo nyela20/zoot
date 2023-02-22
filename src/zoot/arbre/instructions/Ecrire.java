@@ -10,7 +10,7 @@ import zoot.exceptions.VariableIndefinieException;
  * @author Théo FAEDO
  */
 public class Ecrire extends Instruction {
-    protected Expression exp ;
+    protected final Expression exp ;
     private static final String ligne = "" + "\t#Saut de ligne\n" + "\tla $a0, saut\n" + "\tli $v0, 4\n" + "\tsyscall";
 
     /**

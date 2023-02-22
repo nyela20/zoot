@@ -29,11 +29,23 @@ public class TDS implements Iterable<String> {
         }
     }
 
-    public void ajouter(final String idf, final Symbole symbole, int numLigne, int numColonne) {
-        verifier(idf,symbole,numLigne,numColonne);
+    public void ajouter(final EntreeVariable idf, final Symbole symbole, int numLigne, int numColonne) {
+        verifier(idf.getIdentifiant(),symbole,numLigne,numColonne);
         symbole.setDeplacement(this.getPileAllocation());
-        this.tds.put(idf, symbole);
-        System.out.println(idf + " : " + symbole.getSymbole());
+        this.tds.put(idf.getIdentifiant(), symbole);
+        System.out.println(idf.getIdentifiant() + " : " + symbole.getSymbole());
+    }
+
+    public void ajouter(final EntreeFonction idf,final SymboleFonction symbole, int numLigne, int numColonne){
+
+    }
+
+    public void entreeBloc(){
+
+    }
+
+    public void sortieBloc(){
+
     }
 
     public int getPileAllocation() {
