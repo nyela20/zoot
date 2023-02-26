@@ -13,6 +13,8 @@ public class TDS implements Iterable<String> {
 
     private int conditionIndex;
 
+    private int numBLoc;
+
     private TDS(){
         this.tds = new HashMap<>();
         this.conditionIndex = 0;
@@ -41,7 +43,7 @@ public class TDS implements Iterable<String> {
     }
 
     public void entreeBloc(){
-
+        this.numBLoc += 1;
     }
 
     public void sortieBloc(){

@@ -58,7 +58,7 @@ parser code {:
 
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    DEBUT, FIN, VARIABLES,FONCTIONS, POINTVIRGULE, ECRIRE, EGAL, PARO, PARF, RETOURNER;
+terminal Symbol    DEBUT, FIN, VARIABLES, FONCTIONS, POINTVIRGULE, ECRIRE, EGAL, PARO, PARF, RETOURNER;
 terminal String    IDF, CSTENTIERE, CSTBOOLEENNE, ENTIER, BOOLEEN ;
 
 /* Non terminals used in the grammar section.  */
@@ -126,7 +126,10 @@ EXP    ::=     CSTENTIERE:c //Bloc fonction a continuer on a un pb Instruction =
         |
                IDF:i
                {: RESULT = new Identifiant(i, ileft + 1) ; :}
-                ;
+        |
+               IDF:i PARO PARF
+               {:RESULT = new AppelFonction(i,ileft +1); :}
+               ;
 
 TYPE    ::=     ENTIER
                 {: RESULT = "entier"; :}
@@ -134,6 +137,12 @@ TYPE    ::=     ENTIER
                 BOOLEEN
                 {: RESULT = "booleen"; :}
                 ;
+
+FCT     ::=     TYPE:t IDF:i PARO PARF DEBUT LINST:li FIN
+                {:
+                    TDS.getInstance().ajouter(new EntreeFonction(i),new SymboleFonction(t), ileft+1, tright);
+               :}
+               ;
 
 LFCT    ::=     LFCT:lf FCT:f
                 {: ((BlocFonctions)lf).ajouter(f) ;
@@ -144,9 +153,3 @@ LFCT    ::=     LFCT:lf FCT:f
                    b.ajouter(f) ;
                    RESULT = b ; :}
                 ;
-
-FCT     ::=     TYPE:t IDF:i PARO PARF DEBUT LINST:li FIN
-                {:
-                    TDS.getInstance().ajouter(new EntreeFonction(i),new SymboleFonction(t), ileft+1, tright);
-               :}
-               ;
