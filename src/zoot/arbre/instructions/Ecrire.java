@@ -1,48 +1,47 @@
 package zoot.arbre.instructions;
 
-import zoot.arbre.declaration.TDS;
-import zoot.arbre.expressions.Expression;
-import zoot.exceptions.VariableIndefinieException;
+import zoot.arbre.BlocPrincipale;
+import zoot.arbre.declaration.Expression;
 
-/**
- * @class Ecrire
- * @author Ny Elanirina RALANTONISAINANA
- * @author Théo FAEDO
- */
 public class Ecrire extends Instruction {
-    protected final Expression exp ;
-    private static final String ligne = "" + "\t#Saut de ligne\n" + "\tla $a0, saut\n" + "\tli $v0, 4\n" + "\tsyscall";
 
-    /**
-     * @brief Constructeur de la classe Ecrire
-     * @param e une Expression
-     * @param n le numéro de la ligne de l'expression dans le fichier .zoot
-     */
+    private final static String sautLigne = "\t#Passage à la ligne\n" +
+            "\tla $a0, saut\n" +
+            "\tli $v0, 4\n" +
+            "\tsyscall\n";
+
+    protected Expression exp ;
+
     public Ecrire (Expression e, int n) {
         super(n) ;
         exp = e ;
     }
 
-    /**
-     * @brief Fonction qui analyse la sémantique de l'arbre abstrait construit.
-     * @throws UnsupportedOperationException exception
-     */
     @Override
-    public void verifier() throws VariableIndefinieException {
-        //Variable indéfini
-        if(!TDS.getInstance().contains(exp.toString()) && exp.estIdentifiant()){
-            throw new VariableIndefinieException(this.noLigne, exp.toString());
-        }
+    public void verifier() {
+        exp.verifier();
     }
 
-    /**
-     * @brief Fonction qui génére de code de l’arbre abstrait vérifié
-     * @return le code de l'arbre abstrait vérifié
-     */
     @Override
     public String toMIPS() {
-        verifier();
-        return (exp.toMIPS() + ligne);
-    }
+        String ecrire;
+        if(exp.getSymbole() == Expression.Type.ENTIER){
+            StringBuilder tompis1 = new StringBuilder();
+            tompis1.append("\tla $a0, ($v0)\n");
+            tompis1.append("\tli $v0, 1\n");
+            ecrire = exp.toMIPS() + tompis1;
+        }
+        else{
+            StringBuilder tomips2 = new StringBuilder();
+            tomips2.append("\tjal " + BlocPrincipale.getBooleanToStringLabel() + "\n");
+            tomips2.append("\tla $a0, ($v0)\n");
+            tomips2.append("\tli $v0, 4\n");
+            ecrire = exp.toMIPS() + tomips2;
+        }
 
+        return "#ecrire " + this.exp.toString() + "\n" +
+                ecrire +
+                "\tsyscall\n" +
+                sautLigne;
+    }
 }

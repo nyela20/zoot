@@ -22,12 +22,12 @@ import zoot.exceptions.AnalyseLexicaleException;
 
   private StringBuilder chaine ;
 
-  private Symbol symbol(int type) {
-	return new Symbol(type, yyline, yycolumn) ;
+  private Symbol symbol(int symbole) {
+	return new Symbol(symbole, yyline, yycolumn) ;
   }
 
-  private Symbol symbol(int type, Object value) {
-	return new Symbol(type, yyline, yycolumn, value) ;
+  private Symbol symbol(int symbole, Object value) {
+	return new Symbol(symbole, yyline, yycolumn, value) ;
   }
 %}
 
@@ -53,7 +53,7 @@ parf = \) /* parenthèse fermante */
 
 "fin"              	   { return symbol(CodesLexicaux.FIN); }
 
-"retourne"             { return symbol(CodesLexicaux.RETOURNER); }
+"retourne"             { return symbol(CodesLexicaux.RETOURNE); }
 
 "ecrire"               { return symbol(CodesLexicaux.ECRIRE); }
 

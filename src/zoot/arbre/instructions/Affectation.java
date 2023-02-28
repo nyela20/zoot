@@ -1,65 +1,37 @@
 package zoot.arbre.instructions;
 
-import zoot.arbre.declaration.TDS;
-import zoot.arbre.expressions.Expression;
-import zoot.arbre.expressions.Identifiant;
-import zoot.exceptions.MauvaisAffectionTypeException;
-import zoot.exceptions.VariableIndefinieException;
+import zoot.arbre.declaration.Expression;
+import zoot.arbre.declaration.Identifiant;
+import zoot.exceptions.AnalyseSemantiqueException;
 
 public class Affectation extends Instruction {
+    private Identifiant identifiant;
+    private Expression exp;
 
-    private final Identifiant identifiant;
-    private final Expression exp;
-
-
-    public Affectation(final Identifiant identifiant, final Expression exp, final int n) {
+    public Affectation(Identifiant identifiant, Expression exp, int n) {
         super(n);
-        this.identifiant = identifiant;
         this.exp = exp;
+        this.identifiant = identifiant;
     }
-
-    @Override
-    public void verifier() throws VariableIndefinieException {
-        //Variable indéfinie
-        if (!TDS.getInstance().contains(identifiant.toString())) {
-            throw new VariableIndefinieException(this.noLigne, identifiant.toString());
-        }
-        //Type différent lors d'une affectation
-        if ((TDS.getInstance().identifier(this.identifiant.toString()).getSymbole().compareTo("entier") == 0) && exp.estConstanteBooleenne()) {
-            throw new MauvaisAffectionTypeException(this.noLigne, identifiant.toString());
-        }
-        if ((TDS.getInstance().identifier(this.identifiant.toString()).getSymbole().compareTo("booleen") == 0) && exp.estConstanteEntiere()) {
-            throw new MauvaisAffectionTypeException(this.noLigne, identifiant.toString());
-        }
-        if(exp.estIdentifiant()) {
-            if ((TDS.getInstance().identifier(this.exp.toString()).getSymbole().compareTo(TDS.getInstance().identifier(this.identifiant.toString()).getSymbole()) != 0)) {
-                throw new MauvaisAffectionTypeException(this.noLigne, identifiant.toString());
-            }
-        }
-    }
-
     @Override
     public String toMIPS() {
-        verifier();
-        StringBuilder tomips = new StringBuilder();
-        if (exp.estConstanteEntiere()) {
-            tomips.append("\t#" + identifiant.toString() + " = " + exp.toString() + "\n" +
-                    "\tli $v0, " + exp.toString() + "\n" +
-                    "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)");
-        } else if (exp.estConstanteBooleenne()) {
-            tomips.append("\t#" + identifiant.toString() + " = " + exp.toString() + "\n" +
-                    "\tla $v0, " + exp.toString() + "\n" +
-                    "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)");
-        } else if (exp.estIdentifiant()) {
-            if (TDS.getInstance().identifier(identifiant.toString()).getSymbole().compareTo("entier") == 0) {
-                tomips.append("\t#" + identifiant.toString() + " = " + exp.toString() + "\n" +
-                        "\tlw $v0," + TDS.getInstance().identifier(exp.toString()).getDeplacement() + "($s7)\n" +
-                        "\tsw $v0, " + TDS.getInstance().identifier(identifiant.toString()).getDeplacement() + "($s7)");
-            } else if ((TDS.getInstance().identifier(identifiant.toString()).getSymbole().compareTo("booleen") == 0)) {
-                // A REMPLIR
-
-            }
-        }
-        return tomips.toString();
+        StringBuilder tomips1 = new StringBuilder();
+        tomips1.append("\tsw $a0, ($sp)\n");
+        tomips1.append("\taddi $sp, $sp, -4\n" );
+        StringBuilder tomips2 = new StringBuilder();
+        tomips2.append(identifiant.getAdresse() + tomips1);
+        tomips2.append(exp.toMIPS());
+        tomips2.append("\taddi $sp, $sp, 4\n");
+        tomips2.append("\tlw $a0, ($sp)\n");
+        tomips2.append("\tsw $v0, ($a0)\n");
+        return tomips2.toString();
+    }
+    @Override
+    public void verifier() {
+        identifiant.verifier();
+        exp.verifier();
+        if(identifiant.getSymbole() == Expression.Type.UNDEFINED || exp.getSymbole() == Expression.Type.UNDEFINED)
+            return;
+        if (identifiant.getSymbole() != exp.getSymbole()) AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "Types incompatibles pour l'affectation de la variable" + identifiant + " (" + identifiant.getSymbole() + ")");
     }
 }
