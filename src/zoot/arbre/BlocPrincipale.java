@@ -25,7 +25,7 @@ public class BlocPrincipale extends ArbreAbstrait {
 
     @Override
     public String toMIPS() {
-
+        TDS.getInstance().test();
         booleanToStringLabel = TDS.getInstance().generationNouvelleEtiquette();
         String booleanToStringElseLabel = TDS.getInstance().generationNouvelleEtiquette();
         String mainLabel = TDS.getInstance().generationNouvelleEtiquette();
@@ -53,30 +53,20 @@ public class BlocPrincipale extends ArbreAbstrait {
                 mainLabel + " :\n" +
 
                 "\t#Initialisation du programme principale\n" +
-                "\tli $v0, 1 #Numéro de la base\n" + // set no region
+                "\tli $v0, 1 #Numéro de la base\n" +
                 "\tsw $v0, ($sp) #Empiler le numéro de la base\n" +
-                "\tmove $s7, $sp #Positionner $(s7)\n" +
-                "\taddi $sp, $sp, 0 \n" +
+                "\tmove $s7, $sp\n" +
+                "\taddi $sp, $sp, " + (TDS.getInstance().getTailleVariables()-4)  + "\n" +
 
                 "\t"+blocInstructions.toMIPS() +
-
                 endLabel + " :\n" +
                 "\t#Fin du programme\n" +
-                "\tli $v0, 10 # retour au système\n" +
-                "\tsyscall\n\n" +
-                // Error message
-                ".kdata\n" +
-                "\terror_message: .asciiz \"ERREUR EXECUTION\" \n" +
-                "\n" +
-                ".ktext 0x80000180\n" +
-                "\tla $a0, error_message\n" +
-                "\tli $v0, 4\n" +
-                "\tsyscall";
+                "\tli $v0, 10\n" +
+                "\tsyscall\n\n" ;
     }
 
     private static String booleanToStringLabel;
-    public static String getBooleanToStringLabel(){
+    public static String getEtiquette(){
         return booleanToStringLabel;
     }
-
 }

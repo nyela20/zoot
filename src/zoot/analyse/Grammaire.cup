@@ -81,18 +81,43 @@ PROG    ::=     VARIABLES  LDCL:ld  FONCTIONS  LFCT:lf  DEBUT  LINST:li  FIN
                 {:
                     BlocPrincipale blocPrincipale = new BlocPrincipale(lileft + 1);
                     for (VariableDeclaration vd : ld) {
-                        //vd.invoke(false);
+                        vd.verifier();
                     }
 
-                    Bloc blocFonc = new Bloc(lfleft + 1);
-                    for (FonctionDeclaration fonc : lf) {
-                        blocFonc.ajouter(fonc.verifier());
+                    Bloc bf = new Bloc(lfleft + 1);
+                    for (FonctionDeclaration fd : lf) {
+                        bf.ajouter(fd.verifier());
                     }
 
+                    blocPrincipale.setBlocFonctions(bf);
+                    blocPrincipale.setBlocInstructions(li);
+                    RESULT = blocPrincipale ;
+                :}
+                |
+                VARIABLES  LDCL:ld  FONCTIONS  DEBUT  LINST:li  FIN
+                {:
+                    BlocPrincipale blocPrincipale = new BlocPrincipale(lileft + 1);
+                    for (VariableDeclaration vd : ld) {
+                            vd.verifier();
+                    }
+                    Bloc blocFonc = new Bloc(lileft + 1);
                     blocPrincipale.setBlocFonctions(blocFonc);
                     blocPrincipale.setBlocInstructions(li);
                     RESULT = blocPrincipale ;
                 :}
+                |
+                VARIABLES  LDCL:ld DEBUT LINST:li  FIN
+                {:
+                    BlocPrincipale blocPrincipale = new BlocPrincipale(lileft + 1);
+                    for (VariableDeclaration vd : ld) {
+                            vd.verifier();
+                    }
+                    Bloc blocFonc = new Bloc(lileft + 1);
+                    blocPrincipale.setBlocFonctions(blocFonc);
+                    blocPrincipale.setBlocInstructions(li);
+                    RESULT = blocPrincipale ;
+                :}
+
                 ;
 
 TYPE    ::=     BOOLEEN {:
@@ -128,6 +153,7 @@ VAR     ::=     TYPE:t  IDF:i  POINTVIRGULE
 
 LFCT   ::=     LFCT:lf  FCT:f
                 {:
+                    lf.add(f);
                     RESULT = lf;
                 :}
         |
@@ -144,7 +170,13 @@ FCT ::=    TYPE:t  IDF:i  PARO PARF  DEBUT   LINST:li  FIN
                     Fonction f = new Fonction(i, li, tleft + 1);
                     RESULT = new FonctionDeclaration(f, t, tleft + 1);
                 :}
-                ;
+          |
+          TYPE:t  IDF:i  PARO PARF VARIABLES DEBUT   LINST:li  FIN
+            {:
+                Fonction f = new Fonction(i, li, tleft + 1);
+                RESULT = new FonctionDeclaration(f, t, tleft + 1);
+             :}
+           ;
 
 LDCLNULL  ::=   LDCL:ld
                 {:
@@ -212,7 +244,7 @@ EXP    ::=      CSTENTIERE:c
         |
                 CSTBOOLEENNE:c
                 {:
-                    boolean b = false;
+                    boolean b = true;
                     if(c == "vrai") b = true;
                     RESULT = new ConstanteBooleenne(b, cleft + 1);
                 :}

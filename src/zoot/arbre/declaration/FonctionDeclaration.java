@@ -20,8 +20,7 @@ public class FonctionDeclaration {
 
     public Fonction verifier() {
         ArrayList<Expression.Type> symboles = new ArrayList<Expression.Type>();
-        boolean erreur = TDS.getInstance().ajouterEntreeEtSymbole(new EntreeFonction(fonction.getIdentifiant()), new SymboleFonction(symboleRetour));
-        if (!erreur) {
+        if(!TDS.getInstance().ajouterEntreeEtSymbole(new EntreeFonction(fonction.getIdentifiant()), new SymboleFonction(symboleRetour))){
             AnalyseSemantiqueException.raiseAnalyseSemantiqueException(numLigne, " : Double déclaration de la fonction " + fonction.getIdentifiant());
         }
         TDS.getInstance().sortirBloc();

@@ -30,7 +30,7 @@ public class Retourne extends Instruction {
         tompis.append("\t#Mettre à jour le sommet de la pile et $(s7)\n");
         tompis.append("\tlw $ra, 8($s7)\n");
         tompis.append("\tmove $sp, $s7\n");
-        tompis.append("\taddi $sp, $sp, 0\n");
+        tompis.append("\taddi $sp, $sp, "+ (TDS.getInstance().getTailleParametres()) + "\n");
         tompis.append("\tlw $s7, 4($s7)\n");
         tompis.append("\tjr $ra\n");
         return exp.toMIPS() + tompis;

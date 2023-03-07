@@ -25,23 +25,18 @@ public class Ecrire extends Instruction {
     @Override
     public String toMIPS() {
         String ecrire;
+        StringBuilder finalTomips = new StringBuilder();
         if(exp.getSymbole() == Expression.Type.ENTIER){
-            StringBuilder tompis1 = new StringBuilder();
-            tompis1.append("\tla $a0, ($v0)\n");
-            tompis1.append("\tli $v0, 1\n");
-            ecrire = exp.toMIPS() + tompis1;
+            StringBuilder tomips = new StringBuilder();
+            tomips.append("\tla $a0, ($v0)\n" + "\tli $v0, 1\n");
+            ecrire = exp.toMIPS() + tomips;
         }
         else{
-            StringBuilder tomips2 = new StringBuilder();
-            tomips2.append("\tjal " + BlocPrincipale.getBooleanToStringLabel() + "\n");
-            tomips2.append("\tla $a0, ($v0)\n");
-            tomips2.append("\tli $v0, 4\n");
-            ecrire = exp.toMIPS() + tomips2;
+            StringBuilder tomips = new StringBuilder();
+            tomips.append( "\tjal " + BlocPrincipale.getEtiquette() + "\n" +  "\tla $a0, ($v0)\n" + "\tli $v0, 4\n");
+            ecrire = exp.toMIPS() + tomips;
         }
-
-        return "#ecrire " + this.exp.toString() + "\n" +
-                ecrire +
-                "\tsyscall\n" +
-                sautLigne;
+        finalTomips.append("\tsyscall\n" +  "\t#Passage à la ligne\n" + "\tla $a0, saut\n" + "\tli $v0, 4\n" + "\tsyscall\n");
+        return "\t#ecrire "+this.exp+"\n" + ecrire + finalTomips;
     }
 }

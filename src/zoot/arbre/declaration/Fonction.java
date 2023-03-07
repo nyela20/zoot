@@ -6,8 +6,8 @@ import zoot.exceptions.AnalyseSemantiqueException;
 
 public class Fonction extends ArbreAbstrait {
 
-    private String identifiant;
-    private Bloc blocFct;
+    private final String identifiant;
+    private final Bloc blocFct;
 
     public Fonction(String identifiant, Bloc blocFct, int n) {
         super(n);
@@ -22,7 +22,7 @@ public class Fonction extends ArbreAbstrait {
             AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, " : La fonction " + identifiant + "() a le même identifiant que la variable " + identifiant + " déclarée précedemment");
         }
         blocFct.verifier();
-        if (!blocFct.instructiondeRetour()) {
+        if (blocFct.instructiondeRetour()) {
             AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, " : La fonction " + identifiant + " n'a pas d'instruction de retour");
         }
         TDS.getInstance().sortirBloc(); //Sortie de bloc
@@ -33,20 +33,20 @@ public class Fonction extends ArbreAbstrait {
         String etiquetteFonction = ((SymboleFonction) TDS.getInstance().identifier(new EntreeFonction(identifiant))).getEtiquetteFonction();
         TDS.getInstance().entrerBloc(); //Entrée bloc
         StringBuilder tomips = new StringBuilder();
-        tomips.append("#Programme de la fonction " + this.identifiant + "() \n");
-        tomips.append(etiquetteFonction + " :\n");
-        tomips.append("\t#Initialisation de la fonction " + this.identifiant + "() \n");
+        tomips.append("#Programme de la fonction ").append(this.identifiant).append("() \n");
+        tomips.append(etiquetteFonction).append(" :\n");
+        tomips.append("\t#Initialisation de la fonction ").append(this.identifiant).append("() \n");
         tomips.append("\t#Empiler l'adresse de retour de la fonction\n");
-        tomips.append("\tsw $ra, ($sp) #Empiler $ra\n");
+        tomips.append("\tsw $ra, ($sp)\n");
         tomips.append("\t#Chainage dynamique entre fonction appelante et fonction appelée\n");
-        tomips.append("\tla $a0, ($s7) #Empiler ($s7)\n");
-        tomips.append("\tsw $a0, -4($sp) #Empiler ($s7)\n");
-        tomips.append("\tli $v0, " + TDS.getInstance().getBase() + " #Numéro de la base\n");
-        tomips.append("\tsw $v0, -8($sp) #Empiler le numéro de la base\n");
-        tomips.append("\taddi $sp, $sp, -8 #Repositionner le sommet de la pile\n");
-        tomips.append("\tmove $s7, $sp #Mettre a jour l'adresse de ($s7)\n");
+        tomips.append("\tla $a0, ($s7)\n");
+        tomips.append("\tsw $a0, -4($sp)\n");
+        tomips.append("\tli $v0, ").append(TDS.getInstance().getBase()).append(" #Numéro de la base\n");
+        tomips.append("\tsw $v0, -8($sp) \n");
+        tomips.append("\taddi $sp, $sp, -8 \n");
+        tomips.append("\tmove $s7, $sp\n");
         tomips.append("\taddi $sp, $sp, -4 \n");
-        tomips.append("\t"+blocFct.toMIPS());
+        tomips.append("\t").append(blocFct.toMIPS());
         TDS.getInstance().sortirBloc(); //Sortie de bloc
         return tomips.toString();
     }

@@ -16,11 +16,12 @@ public class Identifiant extends Expression {
             AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "Variable " + identifiant + " non déclarée");
         }
     }
+
     @Override
     public String toMIPS() {
         StringBuilder tompis = new StringBuilder();
         tompis.append("\n\tlw $v0, ($a0)\n");
-        return this.getAdresse() + tompis;
+        return this.getBaseEtDeplacement() + tompis;
     }
 
     @Override
@@ -31,43 +32,24 @@ public class Identifiant extends Expression {
     }
 
     @Override
-    public boolean estUneConstanteBooleenne() {
-        return false;
-    }
-
-    @Override
-    public boolean estUneConstanteEntiere() {
-        return false;
-    }
-
-    @Override
-    public boolean estUneAppelDeFonction() {
-        return false;
-    }
-
-    @Override
-    public boolean estUnIdendifiant() {return false;}
-
-
-    @Override
     public String toString() {
         return identifiant;
     }
 
-    public String getAdresse(){
+    public String getBaseEtDeplacement(){
         String redirection = TDS.getInstance().generationNouvelleEtiquette();
         int deplacementId = ((SymboleVariable)TDS.getInstance().identifier(new EntreeVariable(identifiant))).getNumeroDeplacementVariable();
         String redirectionEnd = TDS.getInstance().generationNouvelleEtiquette();
         StringBuilder tompis = new StringBuilder();
-        tompis.append("# get base\n");
-        tompis.append("lw $v0, ($s7)\n");
-        tompis.append("la $a0, ($s7)\n");
+        tompis.append("\t#identifiant " + this.identifiant +"\n");
+        tompis.append("\tlw $v0, ($s7)\n");
+        tompis.append("\tla $a0, ($s7)\n");
         tompis.append(redirection + " :\n");
-        tompis.append("beq $v0, " + TDS.getInstance().getBase(new EntreeVariable(identifiant)) + ", " + redirectionEnd + "\n");
-        tompis.append("lw $a0, 4($a0)\n");
-        tompis.append("lw $v0, ($a0)\n");
-        tompis.append("j " + redirection + "\n");
+        tompis.append("\tbeq $v0, " + TDS.getInstance().getBase(new EntreeVariable(identifiant)) + ", " + redirectionEnd + "\n");
+        tompis.append("\tlw $a0, 4($a0)\n");
+        tompis.append("\tlw $v0, ($a0)\n");
+        tompis.append("\tj " + redirection + "\n");
         tompis.append(redirectionEnd + " :\n");
-        return  tompis + "la $a0, " + deplacementId + "($a0)\n";
+        return  tompis + "\tla $a0, " + deplacementId + "($a0)\n";
     }
 }

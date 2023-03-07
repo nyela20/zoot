@@ -24,8 +24,7 @@ public class EntreeFonction extends Entree {
     public boolean equals(Object instanceOfObject) {
         if (this == instanceOfObject) return true;
         if (instanceOfObject == null || getClass() != instanceOfObject.getClass()) return false;
-        if (!super.equals(instanceOfObject)) return false;
-        return true;
+        return super.equals(instanceOfObject);
     }
 
     @Override

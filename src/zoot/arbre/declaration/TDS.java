@@ -5,12 +5,9 @@ import java.util.ArrayList;
 public class TDS {
     private static TDS instance;
     private final ArrayList<TDSBloc> blocs = new ArrayList<>();
-    private int conditionIndex = 0;
     private int baseID;
 
     private int etiquetteIndex = 0;
-
-    private StringBuilder etiquetteCourant = new StringBuilder("a");
 
     private TDSBloc blocCourant = new TDSBloc(null);
 
@@ -26,15 +23,10 @@ public class TDS {
 
     //A FINIR
     public void entrerBloc(){
-        baseID = ++baseID; //Incrémentation de la base courante
+        ++baseID;//Incrémentation de la base courante
         blocCourant = blocs.get(baseID); // Recuperer la base
         boolean b = baseID == blocs.size() - 1;
         if(b) baseID = 0; //Base principale
-    }
-
-    public int getConditionIndex(){
-        this.conditionIndex ++;
-        return conditionIndex;
     }
 
     public void sortirBloc(){ blocCourant = blocCourant.getBlocparent(); }
@@ -44,19 +36,18 @@ public class TDS {
     public int getBase(Entree entree){
         TDSBloc blocRef = blocCourant; //le bloc courant
         //tant que on a pas retrouver aller chercher dans le bloc parent
-        while (blocRef.identifier(entree) == null){ blocRef = blocCourant.getBlocparent();}
+        while (blocRef.identifier(entree) == null){ blocRef = blocCourant.getBlocparent(); }
         return blocRef.getNumBloc();
     }
 
     public String generationNouvelleEtiquette(){
-        return gererationEtiquelleIncrementation();
+        return gererationEtiquetteIncrementation();
     }
 
     //a modifier pour plus tard
-    private String gererationEtiquelleIncrementation(){
-        this.etiquetteIndex ++;
-        etiquetteCourant = new StringBuilder("label" + etiquetteIndex);
-        return etiquetteCourant.toString();
+    private String gererationEtiquetteIncrementation() {
+        this.etiquetteIndex++;
+        return "label" + etiquetteIndex;
     }
 
     public SymboleFonction getSymboleBloc(){
@@ -68,21 +59,29 @@ public class TDS {
         return blocCourant.getNumBloc();
     }
 
-    private void blocPrincipaleInit(SymboleFonction symbolefonction){
+    public int getTailleVariables(){
+        return blocCourant.getTailleVariables();
+    }
+
+    public int getTailleParametres(){
+        return blocCourant.getTailleParametres();
+    }
+
+    private void createBloc(SymboleFonction symbolefonction){
         TDSBloc newTDS = new TDSBloc(blocCourant, symbolefonction);
         blocs.add(newTDS); blocCourant = newTDS;
     }
 
     public boolean ajouterEntreeEtSymbole(Entree entree, SymboleFonction symbole) {
         boolean ok = blocCourant.ajouter(entree, symbole);
-        blocPrincipaleInit(symbole);
+        createBloc(symbole);
+        //System.out.println(blocs);
         return ok;
     }
 
-    public boolean ajouterSymbole(Entree entree, SymboleVariable symbole) {
+    public boolean ajouterEntreeSymbole(Entree entree, SymboleVariable symbole) {
         return blocCourant.ajouterSymbole(entree, symbole);
     }
-
 
     //A TESTER EN CAS DE RETOUR NULL
     public Symbole identifier(Entree entree) {
@@ -93,6 +92,9 @@ public class TDS {
             tdsBloc = tdsBloc.getBlocparent();
         }
         return null;
+    }
+    public void test(){
+        //System.out.println("->" + e);
     }
 
 }

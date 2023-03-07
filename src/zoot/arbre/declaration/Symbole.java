@@ -1,7 +1,7 @@
 package zoot.arbre.declaration;
 
 public abstract class Symbole {
-    private Expression.Type symbole;
+    private final Expression.Type symbole;
 
     public Symbole(Expression.Type symbole) {
         this.symbole = symbole;

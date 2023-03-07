@@ -19,7 +19,7 @@ public class Affectation extends Instruction {
         tomips1.append("\tsw $a0, ($sp)\n");
         tomips1.append("\taddi $sp, $sp, -4\n" );
         StringBuilder tomips2 = new StringBuilder();
-        tomips2.append(identifiant.getAdresse() + tomips1);
+        tomips2.append(identifiant.getBaseEtDeplacement() + tomips1);
         tomips2.append(exp.toMIPS());
         tomips2.append("\taddi $sp, $sp, 4\n");
         tomips2.append("\tlw $a0, ($sp)\n");
@@ -30,8 +30,7 @@ public class Affectation extends Instruction {
     public void verifier() {
         identifiant.verifier();
         exp.verifier();
-        if(identifiant.getSymbole() == Expression.Type.UNDEFINED || exp.getSymbole() == Expression.Type.UNDEFINED)
-            return;
+        if(identifiant.getSymbole() == Expression.Type.UNDEFINED || exp.getSymbole() == Expression.Type.UNDEFINED) return;
         if (identifiant.getSymbole() != exp.getSymbole()) AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "Types incompatibles pour l'affectation de la variable" + identifiant + " (" + identifiant.getSymbole() + ")");
     }
 }

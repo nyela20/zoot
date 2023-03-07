@@ -2,7 +2,7 @@ package zoot.arbre.declaration;
 
 public class ConstanteBooleenne extends Constante {
 
-    private boolean cste;
+    private final boolean cste;
 
     public ConstanteBooleenne(boolean bool, int n) {
         super(n);
@@ -12,8 +12,8 @@ public class ConstanteBooleenne extends Constante {
     @Override
     public String toMIPS() {
         StringBuilder tomips = new StringBuilder();
-        if (cste) tomips.append("\tli $v0, 1\n");
-        else tomips.append("\tli $v0, 0\n");
+        if (cste) tomips.append("li $v0, 1\n");
+        else tomips.append("li $v0, 0\n");
         return tomips.toString();
     }
 
@@ -27,23 +27,4 @@ public class ConstanteBooleenne extends Constante {
         return cste ? "vrai" : "faux";
     }
 
-    @Override
-    public boolean estUneConstanteBooleenne() {
-        return true;
-    }
-
-    @Override
-    public boolean estUneConstanteEntiere() {
-        return false;
-    }
-
-    @Override
-    public boolean estUneAppelDeFonction() {
-        return false;
-    }
-
-    @Override
-    public boolean estUnIdendifiant() {
-        return false;
-    }
 }

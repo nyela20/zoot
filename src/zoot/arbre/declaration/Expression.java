@@ -16,12 +16,5 @@ public abstract class Expression extends ArbreAbstrait {
         UNDEFINED
     }
 
-    public abstract boolean estUneConstanteBooleenne();
-
-    public abstract boolean estUneConstanteEntiere();
-
-    public abstract boolean estUneAppelDeFonction();
-
-    public abstract boolean estUnIdendifiant();
 }
 
