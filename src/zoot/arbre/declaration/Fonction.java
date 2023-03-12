@@ -8,11 +8,20 @@ public class Fonction extends ArbreAbstrait {
 
     private final String identifiant;
     private final Bloc blocFct;
+    private int nombre_arguments;
+
 
     public Fonction(String identifiant, Bloc blocFct, int n) {
         super(n);
         this.identifiant = identifiant;
         this.blocFct = blocFct;
+    }
+
+    public Fonction(String identifiant,int nombre_arguments,Bloc bloc,int n){
+        super(n);
+        this.identifiant = identifiant;
+        this.nombre_arguments = nombre_arguments;
+        this.blocFct = bloc;
     }
 
     @Override
@@ -46,6 +55,11 @@ public class Fonction extends ArbreAbstrait {
         tomips.append("\taddi $sp, $sp, -8 \n");
         tomips.append("\tmove $s7, $sp\n");
         tomips.append("\taddi $sp, $sp, -4 \n");
+
+        for( int i = 0; i < Math.abs(TDS.getInstance().getTailleVariables()/4); i++){
+            tomips.append("\tsw, $zero, ($sp)\n");
+            tomips.append("\taddi $sp, $sp, -4\n");
+        }
         tomips.append("\t").append(blocFct.toMIPS());
         TDS.getInstance().sortirBloc(); //Sortie de bloc
         return tomips.toString();

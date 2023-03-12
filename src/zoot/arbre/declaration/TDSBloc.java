@@ -44,18 +44,27 @@ public class TDSBloc implements Iterable<Entree>{
     public TDSBloc getBlocparent(){
         return blocparent;
     }
-    public boolean ajouterSymbole(Entree entree, SymboleVariable symbole) {
-        if (tdsHashMap.containsKey(entree)) return false;
+    public boolean ajouterSymbole(Entree entree, SymboleVariable symbole, boolean isparam) {
+        boolean erreur = false;
+        if (tdsHashMap.containsKey(entree)){
+            return erreur;
+        }
         tdsHashMap.put(entree, symbole);
-        this.tailleVariables -= 4;
-        symbole.setNumeroDeplacementVariable(tailleVariables);
-        return true;
+        if(!isparam) { this.tailleVariables -= 4;
+            symbole.setNumeroDeplacementVariable(tailleVariables);
+        }
+        else{ this.tailleParametres += 4;
+            symbole.setNumeroDeplacementVariable(tailleParametres);
+        }
+        return !erreur;
     }
     public int getTailleVariables() {
         return tailleVariables;
     }
 
-    public int getTailleParametres(){return tailleParametres;}
+    public int getTailleParametres(){
+        return tailleParametres;
+    }
     @Override
     public Iterator<Entree> iterator() {
         return this.tdsHashMap.keySet().iterator();

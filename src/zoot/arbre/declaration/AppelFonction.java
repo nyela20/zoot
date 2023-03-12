@@ -2,14 +2,21 @@ package zoot.arbre.declaration;
 
 import zoot.exceptions.AnalyseSemantiqueException;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class AppelFonction extends Expression {
 
     private final String identifiant;
 
-    public AppelFonction(String idf, int n) {
+    private ArrayList<Expression> params;
+
+    public AppelFonction(String idf, ArrayList<Expression> params, int n) {
         super(n);
         this.identifiant = idf;
+        this.params = params;
     }
+
 
     @Override
     public void verifier() {

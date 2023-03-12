@@ -79,8 +79,9 @@ public class TDS {
         return ok;
     }
 
-    public boolean ajouterEntreeSymbole(Entree entree, SymboleVariable symbole) {
-        return blocCourant.ajouterSymbole(entree, symbole);
+    public boolean ajouterEntreeEtSymbole(Entree entree, SymboleVariable symbole, boolean isparam) {
+        //System.out.println(blocCourant);
+        return blocCourant.ajouterSymbole(entree, symbole,isparam);
     }
 
     //A TESTER EN CAS DE RETOUR NULL

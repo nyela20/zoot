@@ -12,13 +12,9 @@ public class VariableDeclaration {
         this.symboleVariable = symboleVariable;
         this.n = n;
     }
-
-    public void verifier() {
-        if (!TDS.getInstance().ajouterEntreeSymbole(entreeVariable, symboleVariable)) {
-            AnalyseSemantiqueException.raiseAnalyseSemantiqueException(n, "Double déclaration de la variable " + entreeVariable.identifiant);
-        }
+    public void verifier(boolean isparam) {
+        if (!TDS.getInstance().ajouterEntreeEtSymbole(entreeVariable, symboleVariable,isparam))  AnalyseSemantiqueException.raiseAnalyseSemantiqueException(n, "Double déclaration de la variable " + entreeVariable.identifiant);
     }
-
     public Expression.Type getType() {
         return symboleVariable.getType();
     }

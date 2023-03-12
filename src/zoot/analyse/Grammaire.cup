@@ -58,7 +58,7 @@ parser code {:
 
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    DEBUT, FIN, VARIABLES, FONCTIONS, POINTVIRGULE, ECRIRE, EGAL, PARO, PARF, RETOURNE;
+terminal Symbol    DEBUT, FIN, VARIABLES, FONCTIONS, POINTVIRGULE, ECRIRE, EGAL, PARO, PARF, RETOURNE, VIRGULE;
 terminal String    IDF, CSTENTIERE, CSTBOOLEENNE, ENTIER, BOOLEEN ;
 
 /* Non terminals used in the grammar section.  */
@@ -67,11 +67,12 @@ non terminal BlocPrincipale PROG ;
 non terminal Bloc LINST, LINSTNULL ;
 non terminal ArrayList<FonctionDeclaration> LFCT ;
 non terminal Expression.Type TYPE ;
-non terminal ArrayList<VariableDeclaration> LDCL, LDCLNULL ;
+non terminal ArrayList<VariableDeclaration> LDCL, LDCLNULL, PARAMETRES ;
 non terminal VariableDeclaration VAR ;
 non terminal FonctionDeclaration FCT ;
 non terminal Instruction INST ;
 non terminal Expression EXP ;
+non terminal ArrayList<Expression> PARAMSE;
 
 /* ----------------------------Grammar Section-------------------- */
 
@@ -81,7 +82,7 @@ PROG    ::=     VARIABLES  LDCL:ld  FONCTIONS  LFCT:lf  DEBUT  LINST:li  FIN
                 {:
                     BlocPrincipale blocPrincipale = new BlocPrincipale(lileft + 1);
                     for (VariableDeclaration vd : ld) {
-                        vd.verifier();
+                        vd.verifier(false);
                     }
 
                     Bloc bf = new Bloc(lfleft + 1);
@@ -98,7 +99,7 @@ PROG    ::=     VARIABLES  LDCL:ld  FONCTIONS  LFCT:lf  DEBUT  LINST:li  FIN
                 {:
                     BlocPrincipale blocPrincipale = new BlocPrincipale(lileft + 1);
                     for (VariableDeclaration vd : ld) {
-                            vd.verifier();
+                            vd.verifier(false);
                     }
                     Bloc blocFonc = new Bloc(lileft + 1);
                     blocPrincipale.setBlocFonctions(blocFonc);
@@ -110,7 +111,7 @@ PROG    ::=     VARIABLES  LDCL:ld  FONCTIONS  LFCT:lf  DEBUT  LINST:li  FIN
                 {:
                     BlocPrincipale blocPrincipale = new BlocPrincipale(lileft + 1);
                     for (VariableDeclaration vd : ld) {
-                            vd.verifier();
+                            vd.verifier(false);
                     }
                     Bloc blocFonc = new Bloc(lileft + 1);
                     blocPrincipale.setBlocFonctions(blocFonc);
@@ -165,17 +166,19 @@ LFCT   ::=     LFCT:lf  FCT:f
                 :}
                 ;
 
-FCT ::=    TYPE:t  IDF:i  PARO PARF  DEBUT   LINST:li  FIN
-                {:
-                    Fonction f = new Fonction(i, li, tleft + 1);
-                    RESULT = new FonctionDeclaration(f, t, tleft + 1);
-                :}
-          |
-          TYPE:t  IDF:i  PARO PARF VARIABLES DEBUT   LINST:li  FIN
+FCT ::=
+          TYPE:t  IDF:i PARAMETRES:p VARIABLES DEBUT LINST:li  FIN
             {:
-                Fonction f = new Fonction(i, li, tleft + 1);
-                RESULT = new FonctionDeclaration(f, t, tleft + 1);
+                Fonction f = new Fonction(i,p.size(),li,tleft +1);
+                ArrayList<VariableDeclaration> ld = new ArrayList<VariableDeclaration>();
+                RESULT = new FonctionDeclaration(f,t,p,ld,tleft+1);
              :}
+          |
+           TYPE:t IDF:i PARAMETRES:p VARIABLES LDCL:ld DEBUT LINST:li FIN
+           {:
+                Fonction f = new Fonction(i,p.size(),li,tleft +1);
+                RESULT = new FonctionDeclaration(f,t,p,ld,tleft+1);
+           :}
            ;
 
 LDCLNULL  ::=   LDCL:ld
@@ -256,6 +259,25 @@ EXP    ::=      CSTENTIERE:c
         |
                 IDF:i PARO  PARF
                 {:
-                    RESULT = new AppelFonction(i, ileft + 1);
+                    RESULT = new AppelFonction(i,new ArrayList<Expression>(), ileft + 1);
                 :}
+        |
+                IDF:i PARO PARAMSE:p PARF
+                {:
+                    RESULT = new AppelFonction(i,p,ileft+1);
+                :}
+        ;
+
+PARAMSE ::= PARAMSE:pa VIRGULE EXP:e
+        {:
+            pa.add(e);
+            RESULT = pa;
+        :}
+        |
+        EXP:e
+        {:
+            ArrayList<Expression> p = new ArrayList<Expression>();
+            p.add(e);
+            RESULT = p;
+        :}
         ;
