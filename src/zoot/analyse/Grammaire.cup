@@ -247,7 +247,7 @@ EXP    ::=      CSTENTIERE:c
         |
                 CSTBOOLEENNE:c
                 {:
-                    boolean b = true;
+                    boolean b = false;
                     if(c == "vrai") b = true;
                     RESULT = new ConstanteBooleenne(b, cleft + 1);
                 :}
