@@ -2,7 +2,6 @@ package zoot.arbre.declaration;
 
 import zoot.exceptions.AnalyseSemantiqueException;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class AppelFonction extends Expression {
@@ -27,7 +26,18 @@ public class AppelFonction extends Expression {
 
     @Override
     public String toMIPS() {
-        return "\tjal " + ((SymboleFonction) TDS.getInstance().identifier(new EntreeFonction(identifiant))).getEtiquetteFonction() + "\n";
+        StringBuilder empilementParametres = new StringBuilder();
+
+        for (int i = 0; i< params.size(); i++) { //On empile les paramètres
+            empilementParametres
+                    .append(params.get( params.size()-(i+1) ).toMIPS())
+                    .append("\tsw $v0, ($sp)\n")
+                    .append("\taddi $sp, $sp, -4\n");
+        }
+
+        return empilementParametres
+                .append("\tjal " + ((SymboleFonction)TDS.getInstance().identifier(new EntreeFonction(identifiant))).getEtiquetteFonction() + "\n") //On appel ensuite la fonction
+                +"";
     }
 
     @Override
