@@ -19,11 +19,14 @@ public class Affectation extends Instruction {
         tomips1.append("\tsw $a0, ($sp)\n");
         tomips1.append("\taddi $sp, $sp, -4\n" );
         StringBuilder tomips2 = new StringBuilder();
+
         tomips2.append(identifiant.getBaseEtDeplacement() + tomips1);
         tomips2.append(exp.toMIPS());
+
         tomips2.append("\taddi $sp, $sp, 4\n");
         tomips2.append("\tlw $a0, ($sp)\n");
         tomips2.append("\tsw $v0, ($a0)\n");
+
         return tomips2.toString();
     }
     @Override

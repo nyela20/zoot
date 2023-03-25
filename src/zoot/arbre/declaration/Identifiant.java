@@ -20,7 +20,7 @@ public class Identifiant extends Expression {
     @Override
     public String toMIPS() {
         StringBuilder tompis = new StringBuilder();
-        tompis.append("\n\tlw $v0, ($a0)\n");
+        tompis.append("\tlw $v0, ($a0)\n");
         return this.getBaseEtDeplacement() + tompis;
     }
 
@@ -40,16 +40,19 @@ public class Identifiant extends Expression {
         String redirection = TDS.getInstance().generationNouvelleEtiquette();
         int deplacementId = ((SymboleVariable)TDS.getInstance().identifier(new EntreeVariable(identifiant))).getNumeroDeplacementVariable();
         String redirectionEnd = TDS.getInstance().generationNouvelleEtiquette();
+
         StringBuilder tompis = new StringBuilder();
         tompis.append("\t#identifiant " + this.identifiant +"\n");
         tompis.append("\tlw $v0, ($s7)\n");
-        tompis.append("\tla $a0, ($s7)\n");
+        tompis.append("\tla $a0, ($s7)\n\n");
+
         tompis.append(redirection + " :\n");
         tompis.append("\tbeq $v0, " + TDS.getInstance().getBase(new EntreeVariable(identifiant)) + ", " + redirectionEnd + "\n");
         tompis.append("\tlw $a0, 4($a0)\n");
         tompis.append("\tlw $v0, ($a0)\n");
-        tompis.append("\tj " + redirection + "\n");
+        tompis.append("\tj " + redirection + "\n\n");
         tompis.append(redirectionEnd + " :\n");
+
         return  tompis + "\tla $a0, " + deplacementId + "($a0)\n";
     }
 }

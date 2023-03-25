@@ -60,7 +60,7 @@ public class Fonction extends ArbreAbstrait {
             tomips.append("\tsw, $zero, ($sp)\n");
             tomips.append("\taddi $sp, $sp, -4\n");
         }
-        tomips.append("\t").append(blocFct.toMIPS());
+        tomips.append(blocFct.toMIPS());
         TDS.getInstance().sortirBloc(); //Sortie de bloc
         return tomips.toString();
     }

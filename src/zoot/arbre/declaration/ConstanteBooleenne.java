@@ -12,8 +12,8 @@ public class ConstanteBooleenne extends Constante {
     @Override
     public String toMIPS() {
         StringBuilder tomips = new StringBuilder();
-        if (cste) tomips.append("li $v0, 1\n");
-        else tomips.append("li $v0, 0\n");
+        if (cste) tomips.append("\tli $v0, 1\n");
+        else tomips.append("\tli $v0, 0\n");
         return tomips.toString();
     }
 
