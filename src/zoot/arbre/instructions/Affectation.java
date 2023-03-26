@@ -20,7 +20,8 @@ public class Affectation extends Instruction {
         tomips1.append("\taddi $sp, $sp, -4\n" );
         StringBuilder tomips2 = new StringBuilder();
 
-        tomips2.append(identifiant.getBaseEtDeplacement() + tomips1);
+        tomips2.append(identifiant.getBaseEtDeplacement()
+                + tomips1);
         tomips2.append(exp.toMIPS());
 
         tomips2.append("\taddi $sp, $sp, 4\n");
@@ -34,6 +35,6 @@ public class Affectation extends Instruction {
         identifiant.verifier();
         exp.verifier();
         if(identifiant.getSymbole() == Expression.Type.UNDEFINED || exp.getSymbole() == Expression.Type.UNDEFINED) return;
-        if (identifiant.getSymbole() != exp.getSymbole()) AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "Types incompatibles pour l'affectation de la variable" + identifiant + " (" + identifiant.getSymbole() + ")");
+        if (identifiant.getSymbole() != exp.getSymbole()) AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "L\'affectation " + identifiant + "=" + exp.toString() + " ne peux pas être effectué, car le type de la variable (" + identifiant + ") n'est pas de même type que l'expression ("+ exp.toString() +")");
     }
 }
