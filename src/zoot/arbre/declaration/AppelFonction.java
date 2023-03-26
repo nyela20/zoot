@@ -19,7 +19,7 @@ public class AppelFonction extends Expression {
 
     @Override
     public void verifier() {
-        if (TDS.getInstance().identifier(new EntreeFonction(identifiant)) == null) {
+        if (TDS.getInstance().identifier(new EntreeFonction(identifiant, params.size())) == null) {
             AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "La fonction " + identifiant + " n'est pas déclarée");
         }
     }
@@ -36,13 +36,13 @@ public class AppelFonction extends Expression {
         }
 
         return empilementParametres
-                .append("\tjal " + ((SymboleFonction)TDS.getInstance().identifier(new EntreeFonction(identifiant))).getEtiquetteFonction() + "\n") //On appel ensuite la fonction
+                .append("\tjal " + ((SymboleFonction)TDS.getInstance().identifier(new EntreeFonction(identifiant, params.size()))).getEtiquetteFonction() + "\n") //On appel ensuite la fonction
                 +"";
     }
 
     @Override
     public Type getSymbole() {
-        return TDS.getInstance().identifier(new EntreeFonction(identifiant)).getType();
+        return TDS.getInstance().identifier(new EntreeFonction(identifiant, params.size())).getType();
     }
 
     @Override

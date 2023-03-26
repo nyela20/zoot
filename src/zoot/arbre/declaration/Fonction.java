@@ -39,7 +39,7 @@ public class Fonction extends ArbreAbstrait {
 
     @Override
     public String toMIPS() {
-        String etiquetteFonction = ((SymboleFonction) TDS.getInstance().identifier(new EntreeFonction(identifiant))).getEtiquetteFonction();
+        String etiquetteFonction = ((SymboleFonction) TDS.getInstance().identifier(new EntreeFonction(identifiant, nombre_arguments))).getEtiquetteFonction();
         TDS.getInstance().entrerBloc(); //Entrée bloc
         StringBuilder tomips = new StringBuilder();
         tomips.append("#Programme de la fonction ").append(this.identifiant).append("() \n");

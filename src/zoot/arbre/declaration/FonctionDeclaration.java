@@ -31,7 +31,7 @@ public class FonctionDeclaration {
 
     public Fonction verifier() {
         ArrayList<Expression.Type> symboles = new ArrayList<Expression.Type>();
-        if(!TDS.getInstance().ajouterEntreeEtSymbole(new EntreeFonction(fonction.getIdentifiant()), new SymboleFonction(symboleRetour))){
+        if(!TDS.getInstance().ajouterEntreeEtSymbole(new EntreeFonction(fonction.getIdentifiant(), parms.size()), new SymboleFonction(symboleRetour))){
             AnalyseSemantiqueException.raiseAnalyseSemantiqueException(numLigne, " : Double déclaration de la fonction " + fonction.getIdentifiant());
         }
         for(VariableDeclaration p : parms) {

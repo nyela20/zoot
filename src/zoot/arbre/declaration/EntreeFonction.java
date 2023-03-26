@@ -6,13 +6,20 @@ public class EntreeFonction extends Entree {
 
     protected static final String ligne = "" + "\n\t#Saut de ligne\n" + "\tla $a0, saut\n" + "\tli $v0, 4\n" + "\tsyscall";
 
-    public EntreeFonction(String identifiant) {
+    private final int nbParams;
+
+    public EntreeFonction(String identifiant, int nbParams) {
         super(identifiant);
+        this.nbParams = nbParams;
     }
 
     @Override
     public Symbole getSymbole() {
         return Symbole.FONCTION;
+    }
+
+    public int getNbParams(){
+        return nbParams;
     }
 
     @Override
@@ -24,6 +31,7 @@ public class EntreeFonction extends Entree {
     public boolean equals(Object instanceOfObject) {
         if (this == instanceOfObject) return true;
         if (instanceOfObject == null || getClass() != instanceOfObject.getClass()) return false;
+        if(nbParams != ((EntreeFonction) instanceOfObject).getNbParams()) return false;
         return super.equals(instanceOfObject);
     }
 
