@@ -8,7 +8,7 @@ public class AppelFonction extends Expression {
 
     private final String identifiant;
 
-    private ArrayList<Expression> params;
+    private final ArrayList<Expression> params;
 
     /**
      *
@@ -21,7 +21,7 @@ public class AppelFonction extends Expression {
         this.identifiant = idf;
         this.params = params;
     }
-ù
+
 
     @Override
     public void verifier() {
@@ -41,8 +41,7 @@ public class AppelFonction extends Expression {
                     .append("\taddi $sp, $sp, -4\n");
         }
 
-        return empilementParametres
-                .append("\tjal " + ((SymboleFonction)TDS.getInstance().identifier(new EntreeFonction(identifiant, params.size()))).getEtiquetteFonction() + "\n") //On appel ensuite la fonction
+        return empilementParametres.append("\tjal ").append(((SymboleFonction) TDS.getInstance().identifier(new EntreeFonction(identifiant, params.size()))).getEtiquetteFonction()).append("\n") //On appel ensuite la fonction
                 +"";
     }
 
