@@ -33,7 +33,7 @@ public class Ecrire extends Instruction {
         }
         else{
             StringBuilder tomips = new StringBuilder();
-            tomips.append( "\tjal " + BlocPrincipale.getEtiquette() + "\n" +  "\tla $a0, ($v0)\n" + "\tli $v0, 4\n");
+            tomips.append("\tjal ").append(BlocPrincipale.getEtiquette()).append("\n").append("\tla $a0, ($v0)\n").append("\tli $v0, 4\n");
             ecrire = exp.toMIPS() + tomips;
         }
         finalTomips.append("\tsyscall\n" +  "\t#Passage à la ligne\n" + "\tla $a0, saut\n" + "\tli $v0, 4\n" + "\tsyscall\n");

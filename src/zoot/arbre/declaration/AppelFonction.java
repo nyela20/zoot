@@ -41,7 +41,8 @@ public class AppelFonction extends Expression {
                     .append("\taddi $sp, $sp, -4\n");
         }
 
-        return empilementParametres.append("\tjal ").append(((SymboleFonction) TDS.getInstance().identifier(new EntreeFonction(identifiant, params.size()))).getEtiquetteFonction()).append("\n") //On appel ensuite la fonction
+        return empilementParametres
+                .append("\tjal " + ((SymboleFonction)TDS.getInstance().identifier(new EntreeFonction(identifiant, params.size()))).getEtiquetteFonction() + "\n") //On appel ensuite la fonction
                 +"";
     }
 
