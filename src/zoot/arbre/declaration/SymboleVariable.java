@@ -3,6 +3,10 @@ package zoot.arbre.declaration;
 public class SymboleVariable extends Symbole {
     private int numeroDeplacementVariable;
 
+    /**
+     *
+     * @param symbole le type de la fonction
+     */
     public SymboleVariable(Expression.Type symbole) {
         super(symbole);
     }

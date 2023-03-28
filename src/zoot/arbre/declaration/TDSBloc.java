@@ -13,6 +13,10 @@ public class TDSBloc implements Iterable<Entree>{
 
     private int tailleParametres = 8;
 
+    /**
+     *
+     * @param blocparent le bloc appelant (parent)
+     */
     public TDSBloc(TDSBloc blocparent){
         this.tdsHashMap = new HashMap<>();
         this.blocparent = blocparent;

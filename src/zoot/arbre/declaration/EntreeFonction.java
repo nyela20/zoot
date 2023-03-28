@@ -8,6 +8,11 @@ public class EntreeFonction extends Entree {
 
     private final int nbParams;
 
+    /**
+     *
+     * @param identifiant Identifiant de la fonction
+     * @param nbParams le nombre de paramètre
+     */
     public EntreeFonction(String identifiant, int nbParams) {
         super(identifiant);
         this.nbParams = nbParams;

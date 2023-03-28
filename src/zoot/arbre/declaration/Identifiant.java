@@ -6,6 +6,11 @@ public class Identifiant extends Expression {
 
     private String identifiant;
 
+    /**
+     *
+     * @param identifiant le nom de l'identifiant
+     * @param n le numero de la ligne
+     */
     public Identifiant(String identifiant, int n) {
         super(n);
         this.identifiant = identifiant;

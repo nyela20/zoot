@@ -6,6 +6,10 @@ public abstract class Entree {
 
     protected String identifiant;
 
+    /**
+     *
+     * @param identifiant l'identifiant de l'entree
+     */
     public Entree(String identifiant) {
         this.identifiant = identifiant;
     }

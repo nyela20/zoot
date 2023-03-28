@@ -7,6 +7,12 @@ public class VariableDeclaration {
     private final SymboleVariable symboleVariable;
     private final int n; //numero de ligne
 
+    /**
+     *
+     * @param entreeVariable Instance d'une entree de variable
+     * @param symboleVariable Instance du symbole de la variable
+     * @param n le numero de ligne
+     */
     public VariableDeclaration(EntreeVariable entreeVariable, SymboleVariable symboleVariable, int n) {
         this.entreeVariable = entreeVariable;
         this.symboleVariable = symboleVariable;

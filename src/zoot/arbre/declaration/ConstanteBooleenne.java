@@ -4,9 +4,14 @@ public class ConstanteBooleenne extends Constante {
 
     private final boolean cste;
 
-    public ConstanteBooleenne(boolean bool, int n) {
+    /**
+     *
+     * @param b la valeur de la constante
+     * @param n le numero de la ligne
+     */
+    public ConstanteBooleenne(boolean b, int n) {
         super(n);
-        this.cste = bool;
+        this.cste = b;
     }
 
     @Override

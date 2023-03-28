@@ -11,6 +11,12 @@ public class Fonction extends ArbreAbstrait {
     private int nombre_arguments;
 
 
+    /**
+     *
+     * @param identifiant le nom de la fonction
+     * @param blocFct le bloc courant de la fonction
+     * @param n le paramètre de la fonction
+     */
     public Fonction(String identifiant, Bloc blocFct, int n) {
         super(n);
         this.identifiant = identifiant;

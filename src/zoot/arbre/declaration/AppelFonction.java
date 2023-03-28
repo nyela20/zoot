@@ -10,12 +10,18 @@ public class AppelFonction extends Expression {
 
     private ArrayList<Expression> params;
 
+    /**
+     *
+     * @param idf Le nom de la fonction
+     * @param params Les paramètres de la fonctions
+     * @param n le nombre de paramètres
+     */
     public AppelFonction(String idf, ArrayList<Expression> params, int n) {
         super(n);
         this.identifiant = idf;
         this.params = params;
     }
-
+ù
 
     @Override
     public void verifier() {

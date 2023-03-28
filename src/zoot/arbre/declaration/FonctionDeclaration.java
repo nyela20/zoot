@@ -14,6 +14,12 @@ public class FonctionDeclaration {
     private ArrayList<VariableDeclaration> parms;
     private ArrayList<VariableDeclaration> vars;
 
+    /**
+     *
+     * @param fonction L'instance de la fonction
+     * @param symboleRetour Le type de retour de la fonction
+     * @param numLigne le numero de ligne de la fonction
+     */
     public FonctionDeclaration(Fonction fonction, Expression.Type symboleRetour, int numLigne) {
         this.fonction = fonction;
         this.symboleRetour = symboleRetour;
