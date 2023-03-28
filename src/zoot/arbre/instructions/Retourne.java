@@ -5,7 +5,7 @@ import zoot.exceptions.AnalyseSemantiqueException;
 import zoot.arbre.declaration.TDS;
 
 public class Retourne extends Instruction {
-    private Expression exp;
+    private final Expression exp;
 
     public Retourne(Expression exp, int n) {
         super(n);

@@ -5,8 +5,8 @@ import zoot.arbre.declaration.Identifiant;
 import zoot.exceptions.AnalyseSemantiqueException;
 
 public class Affectation extends Instruction {
-    private Identifiant identifiant;
-    private Expression exp;
+    private final Identifiant identifiant;
+    private final Expression exp;
 
     public Affectation(Identifiant identifiant, Expression exp, int n) {
         super(n);
