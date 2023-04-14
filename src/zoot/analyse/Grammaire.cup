@@ -58,7 +58,7 @@ parser code {:
 
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    DEBUT, FIN, VARIABLES, FONCTIONS, POINTVIRGULE, ECRIRE, EGAL, PARO, PARF, RETOURNE, VIRGULE;
+terminal Symbol    DEBUT, FIN, VARIABLES, FONCTIONS, POINTVIRGULE, ECRIRE, EGAL, PARO, PARF, RETOURNE, VIRGULE, PLUS, ETOILE, EGALITE, INFERIEUR, DIFFERENT, ET, OU;
 terminal String    IDF, CSTENTIERE, CSTBOOLEENNE, ENTIER, BOOLEEN ;
 
 /* Non terminals used in the grammar section.  */
@@ -262,9 +262,14 @@ EXP    ::=      CSTENTIERE:c
                     RESULT = new AppelFonction(i,new ArrayList<Expression>(), ileft + 1);
                 :}
         |
-                IDF:i PARO PARAMSE:p PARF
+                EXP:e1 PLUS EXP:e2
                 {:
-                    RESULT = new AppelFonction(i,p,ileft+1);
+                    RESULT = new Addition(e1, e2, e1left+1);
+                :}
+        |
+                EXP:e1 ETOILE EXP:e2
+                {:
+                    RESULT = new Produit(e1, e2, e1left+1);
                 :}
         ;
 

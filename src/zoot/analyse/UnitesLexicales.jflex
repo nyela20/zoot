@@ -67,6 +67,12 @@ parf = \) /* parenthèse fermante */
 
 ","                    { return symbol(CodesLexicaux.VIRGULE); }
 
+"+"                    { return symbol(CodesLexicaux.PLUS); }
+
+"-"                    { return symbol(CodesLexicaux.MOIN); }
+
+"*"                    { return symbol(CodesLexicaux.ETOILE); }
+
 {paro}                 { return symbol(CodesLexicaux.PARO); } 
 
 {parf}                 { return symbol(CodesLexicaux.PARF); }
