@@ -1,10 +1,14 @@
 package zoot;
 
+import zoot.arbre.Bloc;
 import zoot.arbre.declaration.*;
 
+import java.beans.Expression;
+
 public class Test {
-    /*
+
     public static void main(String[] args) {
+        /*
         Expression e = new Soustraction(
                 new Produit(
                         new Addition(
@@ -31,6 +35,12 @@ public class Test {
                 1
         );
         System.out.println(e.getNombrePlaces());
+         */
+        //Boucle boucle = new Boucle(0);
+        //boucle.setBlocSI(new Bloc(1));
+        //boucle.setBlocSinon(new Bloc(2));
+        //boucle.setExecuter(new Bloc(3));
+        //boucle.setConditionArret();
     }
-    */
+
 }

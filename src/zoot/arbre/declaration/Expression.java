@@ -13,22 +13,10 @@ public abstract class Expression extends ArbreAbstrait {
     protected Expression(int n) {
         super(n);
     }
-
+    public enum Type {ENTIER,BOOLEEN, UNDEFINED}
     public abstract Type getSymbole();
-
     public int getNombrePlaces(){
         return 1;
     }
-
-    public String toMIPS(List<String> registres){
-        return "";
-    }
-
-    public enum Type {
-        ENTIER,
-        BOOLEEN,
-        UNDEFINED
-    }
-
 }
 
