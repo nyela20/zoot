@@ -28,7 +28,6 @@ public class Boucle extends Instruction {
         //Verifier que le bloc à executer soit correct
         executer.verifier();
         if(conditionArret.getSymbole() != Expression.Type.UNDEFINED && conditionArret.getSymbole() != Expression.Type.BOOLEEN) AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "Le type de la condition tant que n'est pas de type booleen !");
-
     }
 
 

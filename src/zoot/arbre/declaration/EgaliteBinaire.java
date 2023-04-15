@@ -29,6 +29,8 @@ public class EgaliteBinaire extends Binaire{
         tomips.append("\taddi $sp, $sp, -4\n");
         tomips.append("\t#Operante droite\n");
         tomips.append(operandeDroite.toMIPS());
+        tomips.append("\taddi $sp, $sp, -4 \t #Depilement\n");
+        tomips.append("\tlw $v1, ($sp)\n");
         tomips.append("\tbeq $v1, $v0, " + etiquette1 + "\n");
         tomips.append("\tli $v0, 0\n");
         tomips.append("\tj " + etiquette2 + "\n");

@@ -58,7 +58,7 @@ parser code {:
 
 /* Terminals (tokens returned by the scanner).  */
 
-terminal Symbol    DEBUT, FIN, VARIABLES, FONCTIONS, POINTVIRGULE, ECRIRE, EGAL, PARO, PARF, RETOURNE, VIRGULE, PLUS, MOINS, ETOILE,INEGALITECONDITION,EGALITECONDITION,NEGATION, INFERIEUR, DIFFERENT, ET, OU;
+terminal Symbol    DEBUT,UPAR, FIN, VARIABLES, FONCTIONS, POINTVIRGULE, ECRIRE, EGAL, PARO, PARF, RETOURNE, VIRGULE, PLUS, MOINS, ETOILE,INEGALITECONDITION,EGALITECONDITION,NEGATION, INFERIEUR, DIFFERENT, ET, OU;
 terminal String    IDF, CSTENTIERE, CSTBOOLEENNE, ENTIER, BOOLEEN ;
 
 /* Non terminals used in the grammar section.  */
@@ -74,7 +74,7 @@ non terminal Instruction INST ;
 non terminal Expression EXP ;
 non terminal ArrayList<Expression> PARAMSE;
 
-precedence left PLUS,MOINS,ETOILE,EGALITECONDITION,INEGALITECONDITION;
+precedence left PLUS,MOINS,ETOILE,EGALITECONDITION,INEGALITECONDITION,INFERIEUR;
 
 
 /* ----------------------------Grammar Section-------------------- */
@@ -280,10 +280,26 @@ EXP    ::=      CSTENTIERE:c
                     RESULT = new Produit(e1, e2, e1left + 1);
                :}
         |
+                EXP:e1  INEGALITECONDITION  EXP:e2
+                {:
+                    RESULT = new NonEgaliteBinaire(e1, e2, e1left + 1);
+                :}
+        |
+                PARO EXP:e PARF
+                {:
+                    RESULT = e;
+                :}
+                %prec UPAR
+        |
                EXP:e1  EGALITECONDITION  EXP:e2
                {:
                     RESULT = new EgaliteBinaire(e1, e2, e1left+1);
                :}
+        |
+                EXP:e1  INFERIEUR  EXP:e2
+                {:
+                    RESULT = new PlusPetitQue(e1, e2, e1left+1);
+                :}
         ;
 
 PARAMSE ::= PARAMSE:pa VIRGULE EXP:e

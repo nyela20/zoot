@@ -37,6 +37,6 @@ public class Ecrire extends Instruction {
             ecrire = exp.toMIPS() + tomips;
         }
         finalTomips.append("\tsyscall\n" +  "\t#Passage à la ligne\n" + "\tla $a0, saut\n" + "\tli $v0, 4\n" + "\tsyscall\n");
-        return "\t#ecrire "+this.exp+"\n" + ecrire + finalTomips;
+        return "\t#ecrire \n" + ecrire + finalTomips;
     }
 }
