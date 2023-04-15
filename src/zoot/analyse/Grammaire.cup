@@ -74,7 +74,7 @@ non terminal Instruction INST ;
 non terminal Expression EXP ;
 non terminal ArrayList<Expression> PARAMSE;
 
-precedence left PLUS,MOINS,ETOILE;
+precedence left PLUS,MOINS,ETOILE,EGALITECONDITION,INEGALITECONDITION;
 
 
 /* ----------------------------Grammar Section-------------------- */
@@ -278,6 +278,11 @@ EXP    ::=      CSTENTIERE:c
                EXP:e1  ETOILE  EXP:e2
                {:
                     RESULT = new Produit(e1, e2, e1left + 1);
+               :}
+        |
+               EXP:e1  EGALITECONDITION  EXP:e2
+               {:
+                    RESULT = new EgaliteBinaire(e1, e2, e1left+1);
                :}
         ;
 
