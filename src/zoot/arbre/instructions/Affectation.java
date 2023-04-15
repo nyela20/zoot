@@ -35,6 +35,6 @@ public class Affectation extends Instruction {
         identifiant.verifier();
         exp.verifier();
         if(identifiant.getSymbole() == Expression.Type.UNDEFINED || exp.getSymbole() == Expression.Type.UNDEFINED) return;
-        if (identifiant.getSymbole() != exp.getSymbole()) AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "L\'affectation " + identifiant + "=" + exp.toString() + " ne peux pas être effectué, car le type de la variable (" + identifiant + ") n'est pas de même type que l'expression ("+ exp.toString() +")");
+        if (identifiant.getSymbole() != exp.getSymbole()) AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "L\'affectation " + identifiant + "=" + exp.getSymbole() + " ne peux pas être effectué, car le type de la variable (" + identifiant + ") n'est pas de même type que l'expression ("+ exp.getSymbole() +")");
     }
 }

@@ -1,6 +1,6 @@
 package zoot.arbre.declaration;
 
-public class Binaire extends Expression{
+public abstract class Binaire extends Expression{
     protected Expression operandeGauche, operandeDroite;
 
     /**
@@ -18,17 +18,8 @@ public class Binaire extends Expression{
 
     @Override
     public void verifier() {
-
-    }
-
-    @Override
-    public String toMIPS() {
-        return null;
-    }
-
-    @Override
-    public Type getSymbole() {
-        return null;
+        this.operandeGauche.verifier();
+        this.operandeDroite.verifier();
     }
 
     @Override

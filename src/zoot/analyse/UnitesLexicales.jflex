@@ -69,9 +69,21 @@ parf = \) /* parenthèse fermante */
 
 "+"                    { return symbol(CodesLexicaux.PLUS); }
 
-"-"                    { return symbol(CodesLexicaux.MOIN); }
+"-"                    { return symbol(CodesLexicaux.MOINS); }
 
 "*"                    { return symbol(CodesLexicaux.ETOILE); }
+
+"non"                   { return symbol(CodesLexicaux.NEGATION); }
+
+"<"                     { return symbol(CodesLexicaux.INFERIEUR); }
+
+"=="                    { return symbol(CodesLexicaux.EGALITECONDITION); }
+
+"!="                    { return symbol(CodesLexicaux.INEGALITECONDITION); }
+
+"et"                    { return symbol(CodesLexicaux.ET); }
+
+"ou"                    { return symbol(CodesLexicaux.OU); }
 
 {paro}                 { return symbol(CodesLexicaux.PARO); } 
 

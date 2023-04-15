@@ -3,6 +3,7 @@ package zoot;
 import zoot.arbre.declaration.*;
 
 public class Test {
+    /*
     public static void main(String[] args) {
         Expression e = new Soustraction(
                 new Produit(
@@ -31,4 +32,5 @@ public class Test {
         );
         System.out.println(e.getNombrePlaces());
     }
+    */
 }

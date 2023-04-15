@@ -2,19 +2,19 @@ package zoot.arbre.declaration;
 
 import zoot.exceptions.AnalyseSemantiqueException;
 
-public class Addition extends Binaire{
+public class Soustraction extends Binaire{
 
     /**
      * @param n le numéro de la ligne
      */
-    public Addition(Expression opGauche, Expression opDroite, int n) {
+    public Soustraction(Expression opGauche, Expression opDroite, int n) {
         super(opGauche, opDroite, n);
     }
 
     @Override
     public void verifier() {
         super.verifier();
-        if(operandeDroite.getSymbole() != Type.ENTIER || operandeGauche.getSymbole() != Type.ENTIER) AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "Addition de deux expression qui n'ont pas le même type");
+        if(operandeDroite.getSymbole() != Expression.Type.ENTIER || operandeGauche.getSymbole() != Expression.Type.ENTIER) AnalyseSemantiqueException.raiseAnalyseSemantiqueException(noLigne, "Soustraction de deux expression qui n'ont pas le même type");
     }
 
     @Override
@@ -26,12 +26,12 @@ public class Addition extends Binaire{
         tomips.append(operandeDroite.toMIPS());
         tomips.append("\taddi $sp, $sp, 4\n");
         tomips.append("\tlw $v1, ($sp)\n");
-        tomips.append("\tadd $v0, $v1, $v0\t#Addition des deux operandes\n");
+        tomips.append("\tsub $v0, $v1, $v0\t#Soustraction des deux operandes\n");
         return tomips.toString();
     }
 
     @Override
-    public Type getSymbole() {
-        return Type.ENTIER;
+    public Expression.Type getSymbole() {
+        return Expression.Type.ENTIER;
     }
 }
